@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from api.collector import core as collector
+from api.collector import api as collector
 
 app = FastAPI()
 
