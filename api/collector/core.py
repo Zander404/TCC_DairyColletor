@@ -27,6 +27,10 @@ columns = ["PubMedID", "URL", "Title", "Abstract", "Keywords"]
 
 
 def collect_articleID(start: int = 0, limit: int = 1000, step: int = 1000) -> None:
+    """
+    Search in the PubMed API and get the articles about the keywords set in the path/router
+    :params
+    """
     count = start + step
     while True:
         data = requests.get(url_search + str(count))
@@ -55,6 +59,10 @@ def collect_articleID(start: int = 0, limit: int = 1000, step: int = 1000) -> No
 
 
 def collect_abstract(start: int = 0, limit: int = 0, max_threads: int = 10) -> None:
+    """
+    Function to get the abstract of all PubMedID articles register in the csv generate by the collect_articleID
+    """
+
     with open("collect.csv", "r", encoding="utf-8") as file:
         reader = csv.DictReader(file)
         data = list(reader)
@@ -78,6 +86,9 @@ def collect_abstract(start: int = 0, limit: int = 0, max_threads: int = 10) -> N
 
 
 def extract_data(row: dict) -> list:
+    """
+    Get the article information using a row with the Arcticle PUB_MED ID from CSV file  and retrive specified info like: TITLE, ABSTRACT and KEYWORDS
+    """
     thread_name = threading.current_thread().name
     #  print(f"[{thread_name}] Processamento ID: {row['PubMedID']}")
     try:
@@ -101,6 +112,9 @@ def extract_data(row: dict) -> list:
 
 
 def pubmed_id_exist() -> list:
+    """
+    Generate a List with all PubMedID saved in the CSV file
+    """
     if os.path.exists("collect.csv"):
         with open("collect.csv", "r") as file:
             reader = csv.DictReader(file)
@@ -113,6 +127,10 @@ def pubmed_id_exist() -> list:
 
 
 def save_csv(filename: str, data: list) -> None:
+    """
+    Save the Info in a CSV file
+    """
+
     with open(filename, "a+", newline="", encoding="utf-8") as file:
         writer = csv.DictWriter(file, fieldnames=columns)
         if not os.path.exists(filename) or os.path.getsize(filename) == 0:
