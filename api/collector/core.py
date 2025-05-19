@@ -1,8 +1,9 @@
 import os
 import csv
 import time
+import threading
 import xml.etree.ElementTree as ET
-
+from concurrent.futures import ThreadPoolExecutor, as_completed, thread
 import requests
 from dotenv import load_dotenv
 
@@ -10,24 +11,26 @@ from dotenv import load_dotenv
 load_dotenv()
 
 API_KEY = os.getenv("API_KEY")
-keywords_list = ["dairy"]
+keywords_list = ["dairy", "dairy cows", "dairy farming", "dairies"]
 keywords = "+".join(keywords_list)
 url_pubmed = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils"
 
-url_search = (
-    f"{url_pubmed}/esearch.fcgi?&db=pubmed&retmode=json&term={keywords}&retmax="
-)
+url_search = f"{url_pubmed}/esearch.fcgi?&api_key{API_KEY}&db=pubmed&retmode=json&term={
+    keywords
+}&retmax="
 
-url_fetch: str = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&rettype=abstract&id="
+url_fetch: str = f"https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?api_key={
+    API_KEY
+}&db=pubmed&rettype=abstract&id="
 
 columns = ["PubMedID", "URL", "Title", "Abstract", "Keywords"]
 
 
 def collect_articleID(start: int = 0, limit: int = 1000, step: int = 1000) -> None:
-    count = start
+    count = start + step
     while True:
         data = requests.get(url_search + str(count))
-        if data.status_code != 200 or count >= limit:
+        if data.status_code != 200 or count > limit:
             break
 
         count += step
@@ -51,23 +54,34 @@ def collect_articleID(start: int = 0, limit: int = 1000, step: int = 1000) -> No
         time.sleep(1)
 
 
-def collect_abstract(limit: int = 0, start: int = 0) -> None:
+def collect_abstract(start: int = 0, limit: int = 0, max_threads: int = 10) -> None:
     with open("collect.csv", "r", encoding="utf-8") as file:
         reader = csv.DictReader(file)
         data = list(reader)
         if limit == 0:
             limit = len(data) - 1
 
-        pub_med_data: list = [row for row in data if row["PubMedID"]][start:limit]
+        pub_med_data: list = [
+            row for row in data if row["PubMedID"]][start:limit]
 
-        extract_data_from_collection(pub_med_data)
+    results = []
+    with ThreadPoolExecutor(max_workers=max_threads) as executor:
+        futures = [executor.submit(extract_data, data)
+                   for data in pub_med_data]
+
+        for future in as_completed(futures):
+            data = future.result()
+            if data:
+                results.append(data)
+
+    save_csv("test.csv", results)
 
 
-def extract_data_from_collection(collection: list) -> None:
-    cache_abstract = []
-
-    for i, row in enumerate(collection):
-        row["URL"] = f" {url_fetch}{str(row['PubMedID'])}"
+def extract_data(row: dict) -> list:
+    thread_name = threading.current_thread().name
+    #  print(f"[{thread_name}] Processamento ID: {row['PubMedID']}")
+    try:
+        row["URL"] = f"{url_fetch}{str(row['PubMedID'])}"
         data = requests.get(row["URL"])
         content = data.text
         root = ET.fromstring(content)
@@ -78,15 +92,12 @@ def extract_data_from_collection(collection: list) -> None:
         row["Keywords"] = " ".join(
             elem.text.strip() for elem in root.findall(".//Keyword") if elem.text
         )
-
-        cache_abstract.append(row)
-
         time.sleep(1)
+        return row
 
-        if i % 100 == 0:
-            save_csv("collect_data.csv", cache_abstract)
-            print(f"Saved in  iteration number {i}")
-            cache_abstract.clear()
+    except Exception as e:
+        print(f"[{thread_name}] Erro com ID {row['PubMedID']}: {e}")
+        return []
 
 
 def pubmed_id_exist() -> list:
@@ -112,6 +123,6 @@ def save_csv(filename: str, data: list) -> None:
 
 if __name__ == "__main__":
     print("Coletado IDS....")
-    collect_articleID(limit=1000)
+    collect_articleID(limit=1000, step=1000)
     print("Coletando ABSTRACTS....")
     collect_abstract()
