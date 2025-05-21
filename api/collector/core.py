@@ -26,7 +26,9 @@ url_fetch: str = f"https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?api
 columns = ["PubMedID", "URL", "Title", "Abstract", "Keywords"]
 
 
-def collect_articleID(start: int = 0, limit: int = 1000, step: int = 1000) -> None:
+async def collect_articleID(
+    start: int = 0, limit: int = 1000, step: int = 1000
+) -> None:
     """
     Search in the PubMed API and get the articles about the keywords set in the path/router
     :params
@@ -58,7 +60,9 @@ def collect_articleID(start: int = 0, limit: int = 1000, step: int = 1000) -> No
         time.sleep(1)
 
 
-def collect_abstract(start: int = 0, limit: int = 0, max_threads: int = 10) -> None:
+async def collect_abstract(
+    start: int = 0, limit: int = 0, max_threads: int = 10
+) -> None:
     """
     Function to get the abstract of all PubMedID articles register in the csv generate by the collect_articleID
     """

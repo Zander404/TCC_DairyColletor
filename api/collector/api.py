@@ -1,5 +1,7 @@
 from fastapi import APIRouter
+from fastapi.responses import FileResponse
 from api.collector import core
+import asyncio
 
 router = APIRouter(prefix="/pubmed", tags=["PubMed"])
 
@@ -9,19 +11,27 @@ def index():
     return {"Data": "Hello Word"}
 
 
-@router.post(
+@router.get(
     "/colect_data",
     description="Rota para realizar a busca de ID's de artigos através das Keywords pré-setadas e salvar em CSV no BackEnd",
 )
-def start_collect_article_id(start: int = 0, limit: int = 1000, step: int = 1000):
-    core.collect_articleID(start=start, limit=limit, step=step)
-    return {"Data": "Iniciando Processamento"}
+async def start_collect_article_id(start: int = 0, limit: int = 1000, step: int = 1000):
+    asyncio.create_task(core.collect_articleID(
+        start=start, limit=limit, step=step))
+
+    return FileResponse("collect.csv", media_type="text/csv", filename="PubMedIDs.csv")
 
 
-@router.post(
+@router.get(
     "/colect_abstract",
     description="Rota para fazer a coleta do resumo dos artigos coletados pela Coleta e salvar-los no CSV no BackEnd",
 )
-def start_collect_abstract(start: int = 0, limit: int = 0, max_threads: int = 10):
-    core.collect_abstract(start=start, limit=limit, max_threads=max_threads)
-    return {"Data": "Colentando Abstract dos Documentos"}
+async def start_collect_abstract(start: int = 0, limit: int = 0, max_threads: int = 10):
+    asyncio.create_task(
+        core.collect_abstract(start=start, limit=limit,
+                              max_threads=max_threads)
+    )
+    # Retorna um CSV já existente
+    return FileResponse(
+        path="api/test.csv", media_type="text/csv", filename="resumos_em_progresso.csv"
+    )
