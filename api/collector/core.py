@@ -1,3 +1,4 @@
+import asyncio
 import os
 import csv
 import time
@@ -73,13 +74,11 @@ async def collect_abstract(
         if limit == 0:
             limit = len(data) - 1
 
-        pub_med_data: list = [
-            row for row in data if row["PubMedID"]][start:limit]
+        pub_med_data: list = [row for row in data if row["PubMedID"]][start:limit]
 
     results = []
     with ThreadPoolExecutor(max_workers=max_threads) as executor:
-        futures = [executor.submit(extract_data, data)
-                   for data in pub_med_data]
+        futures = [executor.submit(extract_data, data) for data in pub_med_data]
 
         for future in as_completed(futures):
             data = future.result()
@@ -130,17 +129,23 @@ def pubmed_id_exist() -> list:
     return []
 
 
+csv_lock = threading.Lock()
+
+
 def save_csv(filename: str, data: list) -> None:
     """
     Save the Info in a CSV file
     """
+    with csv_lock:
+        file_exists = os.path.exists(filename) and os.path.getsize(filename) > 0
 
-    with open(filename, "a+", newline="", encoding="utf-8") as file:
-        writer = csv.DictWriter(file, fieldnames=columns)
-        if not os.path.exists(filename) or os.path.getsize(filename) == 0:
-            writer.writeheader()
+        with open(filename, "a", newline="", encoding="utf-8") as file:
+            writer = csv.DictWriter(file, fieldnames=columns)
 
-        writer.writerows(data)
+            if not file_exists:
+                writer.writeheader()
+
+            writer.writerows(data)
 
 
 if __name__ == "__main__":
