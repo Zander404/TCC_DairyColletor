@@ -12,7 +12,8 @@ from dotenv import load_dotenv
 load_dotenv()
 
 API_KEY = os.getenv("API_KEY")
-keywords_list = ["dairy", "dairy cows", "dairy farming", "dairies"]
+# keywords_list = ["dairy", "dairy cows", "dairy farming", "dairies"]
+keywords_list = ["Journal of dairy science"]
 keywords = "+".join(keywords_list)
 url_pubmed = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils"
 
