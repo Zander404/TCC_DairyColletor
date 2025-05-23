@@ -25,7 +25,17 @@ url_fetch: str = f"https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?api
     API_KEY
 }&db=pubmed&rettype=abstract&id="
 
-columns = ["PubMedID", "URL", "Title", "Abstract", "Keywords"]
+columns = [
+    "PubMedID",
+    "DOI",
+    "URL",
+    "Journal",
+    "Title",
+    "Abstract",
+    "Author",
+    "Year",
+    "Keywords",
+]
 
 
 async def collect_articleID(
@@ -48,15 +58,27 @@ async def collect_articleID(
 
         existed_id: list[int] = pubmed_id_exist()
 
-        with open("collect.csv", "a+", newline="", encoding="utf-8") as file:
+        with open("collect.csv", "w", newline="", encoding="utf-8") as file:
             writer = csv.DictWriter(file, fieldnames=columns)
+
             if not os.path.exists("collect.csv") or os.path.getsize("collect.csv") == 0:
                 writer.writeheader()
 
             for id_ in id_list:
                 if int(id_) in existed_id:
                     continue
-                row = {"PubMedID": id_, "URL": "", "Title": "", "Abstract": ""}
+
+                row = {
+                    "PubMedID": id_,
+                    "DOI": "",
+                    "URL": "",
+                    "Journal": "",
+                    "Title": "",
+                    "Abstract": "",
+                    "Author": "",
+                    "Year": "",
+                    "Keywords": "",
+                }
                 writer.writerow(row)
 
         time.sleep(1)
@@ -75,11 +97,13 @@ async def collect_abstract(
         if limit == 0:
             limit = len(data) - 1
 
-        pub_med_data: list = [row for row in data if row["PubMedID"]][start:limit]
+        pub_med_data: list = [
+            row for row in data if row["PubMedID"]][start:limit]
 
     results = []
     with ThreadPoolExecutor(max_workers=max_threads) as executor:
-        futures = [executor.submit(extract_data, data) for data in pub_med_data]
+        futures = [executor.submit(extract_data, data)
+                   for data in pub_med_data]
 
         for future in as_completed(futures):
             data = future.result()
@@ -100,10 +124,19 @@ def extract_data(row: dict) -> list:
         data = requests.get(row["URL"])
         content = data.text
         root = ET.fromstring(content)
-        row["Title"] = root.find(".//Title").text
+        row["Journal"] = root.find(".//Title").text
+        row["Title"] = root.find(".//ArticleTitle").text
         row["Abstract"] = " ".join(
             elem.text.strip() for elem in root.findall(".//AbstractText") if elem.text
         )
+        row["Author"] = [
+            f"{a.find('ForeName').text} {a.find('LastName').text}"
+            for a in root.findall(".//Author")
+        ]
+        row["Year"] = f"{root.find('.//Day').text}-{root.find('.//Month').text}-{
+            root.find('.//Year').text
+        }"
+        row["DOI"] = root.find(".//ELocationID[@EIdType='doi']").text
         row["Keywords"] = " ".join(
             elem.text.strip() for elem in root.findall(".//Keyword") if elem.text
         )
@@ -138,7 +171,8 @@ def save_csv(filename: str, data: list) -> None:
     Save the Info in a CSV file
     """
     with csv_lock:
-        file_exists = os.path.exists(filename) and os.path.getsize(filename) > 0
+        file_exists = os.path.exists(
+            filename) and os.path.getsize(filename) > 0
 
         with open(filename, "a", newline="", encoding="utf-8") as file:
             writer = csv.DictWriter(file, fieldnames=columns)
@@ -149,8 +183,19 @@ def save_csv(filename: str, data: list) -> None:
             writer.writerows(data)
 
 
+async def teste():
+    await collect_articleID(limit=1000, step=1000)
+
+
 if __name__ == "__main__":
-    print("Coletado IDS....")
-    collect_articleID(limit=1000, step=1000)
-    print("Coletando ABSTRACTS....")
-    collect_abstract()
+    # print("Coletado IDS....")
+    # asyncio.run(teste())
+
+    # print("Coletando ABSTRACTS....")
+    # collect_abstract(start=0, limit=1, max_threads=1)
+    # print("TESTE DE EXTRACT DATA")
+    data = extract_data(
+        {"PubMedID": 40150329, "URL": "", "Title": "",
+            "Abstract": "", "Keywords": ""}
+    )
+    print(data)
