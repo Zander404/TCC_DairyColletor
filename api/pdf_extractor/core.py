@@ -2,6 +2,8 @@ import os
 from pathlib import Path
 import fitz
 import re
+import asyncio
+from api.utils.clean_text import clean_text
 from api.utils.save_csv import save_csv
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
@@ -19,11 +21,14 @@ async def extract_pdf():
 
             text_total += text + "\n"
 
+        text_total = re.sub(r"(\d{1,3}\n)", "", text_total)
+
         bloco = re.findall(
-            r"(\d+\t)\s+(.*?\?)\s+(.*?)(?=\n\d+\t\s+|\Z)", text_total, re.DOTALL
+            r"(\d+)\s+(.*?(?:\?\s*)+)(.*?)(?=\n\d+\s+|\Z)",
+            text_total,
+            re.DOTALL,
         )
         result = await get_data(bloco=bloco)
-
         save_csv(
             "500perguntasgadoleite.csv", ["Numero", "Pergunta", "Resposta"], result
         )
@@ -31,11 +36,10 @@ async def extract_pdf():
 
 async def get_data(bloco: list) -> list:
     data = []
+
     for numero, pergunta, resposta in bloco:
-        pergunta = pergunta.strip().replace("\n", " ")
-        resposta = resposta.strip().replace("\n", " ")
-        resposta = re.sub(r"\b\d{3}\b\s*$", "", resposta.strip())
-        resposta = resposta.replace("- ", "").replace("\xad", "").replace("\xa0", "")
+        pergunta = clean_text(pergunta)
+        resposta = clean_text(resposta)
         data.append(
             {
                 "Numero": numero.replace("\t", ""),
@@ -45,3 +49,7 @@ async def get_data(bloco: list) -> list:
         )
 
     return data
+
+
+if __name__ == "__main__":
+    asyncio.run(extract_pdf())
