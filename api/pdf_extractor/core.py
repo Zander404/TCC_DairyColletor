@@ -24,7 +24,7 @@ async def extract_pdf():
         text_total = re.sub(r"(\d{1,3}\n)", "", text_total)
 
         bloco = re.findall(
-            r"(\d+)\s+(.*?(?:\?\s*)+)(.*?)(?=\n\d+\s+|\Z)",
+            r"(\d+\t)\s+(.*?(?:\?\s*)+)(.*?)(?=\n\d+\s+|\Z)",
             text_total,
             re.DOTALL,
         )
