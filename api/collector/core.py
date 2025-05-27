@@ -17,17 +17,14 @@ keywords_list = ["Journal of dairy science"]
 keywords = "+".join(keywords_list)
 url_pubmed = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils"
 
-url_search = f"{url_pubmed}/esearch.fcgi?&api_key{API_KEY}&db=pubmed&retmode=json&term={
-    keywords
-}&retmax="
+url_search: str = f"{url_pubmed}/esearch.fcgi?&api_key={API_KEY}&db=pubmed&retmode=json&term={keywords}&retmax="
 
-url_fetch: str = f"https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?api_key={
-    API_KEY
-}&db=pubmed&rettype=abstract&id="
+url_fetch: str = f"https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?api_key={API_KEY}&db=pubmed&rettype=abstract&id="
 
 columns = [
     "PubMedID",
     "DOI",
+    "PII",
     "URL",
     "Journal",
     "Title",
@@ -70,6 +67,7 @@ async def collect_articleID(
 
                 row = {
                     "PubMedID": id_,
+                    "PII": "",
                     "DOI": "",
                     "URL": "",
                     "Journal": "",
@@ -131,10 +129,11 @@ def extract_data(row: dict) -> list:
             f"{a.find('ForeName').text} {a.find('LastName').text}"
             for a in root.findall(".//Author")
         ]
-        row["Year"] = f"{root.find('.//Day').text}-{root.find('.//Month').text}-{
-            root.find('.//Year').text
-        }"
+        row["Year"] = (
+            f"{root.find('.//Day').text}-{root.find('.//Month').text}-{root.find('.//Year').text}"
+        )
         row["DOI"] = root.find(".//ELocationID[@EIdType='doi']").text
+        row["PII"] = root.find(".//ELocationID[@EIdType='pii']").text
         row["Keywords"] = " ".join(
             elem.text.strip() for elem in root.findall(".//Keyword") if elem.text
         )
@@ -184,14 +183,12 @@ async def teste():
     await collect_articleID(limit=1000, step=1000)
 
 
-if __name__ == "__main__":
-    # print("Coletado IDS....")
-    # asyncio.run(teste())
+# if __name__ == "__main__":
+# print("Coletado IDS....")
+# asyncio.run(teste())
 
-    # print("Coletando ABSTRACTS....")
-    # collect_abstract(start=0, limit=1, max_threads=1)
-    # print("TESTE DE EXTRACT DATA")
-    data = extract_data(
-        {"PubMedID": 40150329, "URL": "", "Title": "", "Abstract": "", "Keywords": ""}
-    )
-    print(data)
+# print("Coletando ABSTRACTS....")
+# asyncio.run(collect_abstract(start=0, limit=100, max_threads=10))
+# print("TESTE DE EXTRACT DATA")
+# data = extract_data({"PubMedID": 40150329, "URL": "", "Title": "", "Abstract": "", "Keywords": ""})
+# print(data)

@@ -18,3 +18,15 @@ async def extract_book():
         media_type="text/csv",
         filename="500perguntasgadoleite.csv",
     )
+
+
+@router.get("/teste_download", tags=["PDF"])
+def download_article(pii_article):
+    core.get_article_pdf(pii_article)
+
+    if not os.path.exists("teste.pdf"):
+        raise HTTPException(status_code=400, detail="ERRO")
+
+    return FileResponse(
+        path="teste.pdf", media_type="text/pdf", filename="teste_article.pdf"
+    )
