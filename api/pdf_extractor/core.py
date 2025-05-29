@@ -1,22 +1,20 @@
 from builtins import print
-from os import wait
+from concurrent.futures import ThreadPoolExecutor, as_completed
 import os
 from pathlib import Path
+import threading
 import fitz
 import re
 from urllib.parse import quote
 import time
-import asyncio
-from playwright.sync_api import sync_playwright
-from selenium.webdriver.chrome.service import Service
-from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.options import Options
 from selenium import webdriver
 from api.utils.clean_text import clean_text
 from api.utils.save_csv import save_csv
-import requests
+import csv
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
+pdf_downloads = BASE_DIR / "api/downloads/"
 
 pdf_path = BASE_DIR / "500perguntasgadoleite.pdf"
 API_KEY = os.getenv("API_KEY")
@@ -45,7 +43,28 @@ async def extract_pdf():
         )
 
 
+def download_article(start: int = 0, limit: int = 0, max_threads: int = 10) -> None:
+    with open("full_data.csv", "r", encoding="utf-8") as file:
+        reader = csv.DictReader(file)
+        data = list(reader)
+
+        if limit == 0:
+            limit = len(data) - 1
+
+        articles_piis_list = [row["PII"] for row in data if row["PII"]][start:limit]
+
+    with ThreadPoolExecutor(max_workers=max_threads) as executor:
+        futures = [
+            executor.submit(get_article_pdf, data) for data in articles_piis_list
+        ]
+        for future in as_completed(futures):
+            data = future.result()
+            if data:
+                print(data)
+
+
 def get_article_pdf(article_pii: str):
+    thread_name = threading.current_thread().name
     url: str = f"https://www.journalofdairyscience.org/action/showPdf?pii={quote(article_pii)}&api_key={API_KEY}"
     options = Options()
     # options.add_argument("--headless")
@@ -53,7 +72,7 @@ def get_article_pdf(article_pii: str):
     options.add_argument("--no-sandbox")
 
     prefs = {
-        "download.default_directory": "/home/xandy/TCC/tcc_collector/",
+        "download.default_directory": str(pdf_downloads),
         "plugins.always_open_pdf_externally": True,  # Baixa em vez de abrir no navegador
         "download.prompt_for_download": False,
     }
@@ -61,20 +80,16 @@ def get_article_pdf(article_pii: str):
     options.add_experimental_option("prefs", prefs)
 
     driver = webdriver.Chrome(options=options)
+    try:
+        driver.get(url)
 
-    driver.get(url)
-    time.sleep(5)
+        time.sleep(5)
 
-    cookies = driver.get_cookies()
+    except Exception as e:
+        print(f"[{thread_name} Erro com PII{article_pii}: {e}")
 
-    driver.quit()
-
-    cookies_dict = {cookie["name"]: cookie["value"] for cookie in cookies}
-
-    response = requests.get(url, cookies=cookies_dict)
-    print(response.content)
-    with open("artigo.pdf", "wb") as f:
-        f.write(response.content)
+    finally:
+        driver.quit()
 
 
 async def get_data(bloco: list) -> list:

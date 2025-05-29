@@ -106,7 +106,7 @@ async def collect_abstract(
             if data:
                 results.append(data)
 
-    save_csv("test.csv", results)
+    save_csv("full_data.csv", results)
 
 
 def extract_data(row: dict) -> list:

@@ -3,7 +3,11 @@ from fastapi.responses import FileResponse
 from api.pdf_extractor import core
 import os
 
+import string
+
+
 router = APIRouter(prefix="/pdf_extractor")
+download_path = core.pdf_downloads
 
 
 @router.get("", tags=["PDF EXTRACTOR"])
@@ -21,12 +25,5 @@ async def extract_book():
 
 
 @router.get("/teste_download", tags=["PDF"])
-def download_article(pii_article):
-    core.get_article_pdf(pii_article)
-
-    if not os.path.exists("teste.pdf"):
-        raise HTTPException(status_code=400, detail="ERRO")
-
-    return FileResponse(
-        path="teste.pdf", media_type="text/pdf", filename="teste_article.pdf"
-    )
+def download_article(start: int = 0, limit: int = 0, max_threads: int = 2):
+    core.download_article(start=start, limit=limit, max_threads=max_threads)
