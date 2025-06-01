@@ -83,7 +83,7 @@ def get_article_pdf(article_pii: str):
     try:
         driver.get(url)
 
-        time.sleep(5)
+        time.sleep(10)
 
     except Exception as e:
         print(f"[{thread_name} Erro com PII{article_pii}: {e}")

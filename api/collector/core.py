@@ -51,6 +51,7 @@ async def collect_articleID(
         count += step
         content = data.json()
         count_articles = content["esearchresult"]["count"]
+        print(count_articles)
         id_list = content["esearchresult"]["idlist"]
 
         existed_id: list[int] = pubmed_id_exist()
