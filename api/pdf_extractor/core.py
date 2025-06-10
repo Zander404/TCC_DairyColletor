@@ -12,6 +12,7 @@ from selenium import webdriver
 from api.utils.clean_text import clean_text
 from api.utils.save_csv import save_csv
 import csv
+import asyncio
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 pdf_downloads = BASE_DIR / "api/downloads/"
@@ -110,5 +111,5 @@ async def get_data(bloco: list) -> list:
 
 
 if __name__ == "__main__":
-    # asyncio.run(extract_pdf())
-    get_article_pdf("S0022-0302(25)00362-5")
+    asyncio.run(extract_pdf())
+    # get_article_pdf("S0022-0302(25)00362-5")

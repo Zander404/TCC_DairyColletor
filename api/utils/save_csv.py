@@ -17,8 +17,6 @@ def save_csv(
 
         with open(filename, save_type, newline="", encoding="utf-8") as file:
             writer = csv.DictWriter(file, fieldnames=header)
-
-            if not file_exists:
-                writer.writeheader()
+            writer.writeheader()
 
             writer.writerows(data)
