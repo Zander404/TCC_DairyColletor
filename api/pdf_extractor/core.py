@@ -68,10 +68,19 @@ def get_article_pdf(article_pii: str):
     thread_name = threading.current_thread().name
     url: str = f"https://www.journalofdairyscience.org/action/showPdf?pii={quote(article_pii)}&api_key={API_KEY}"
     options = Options()
-    # options.add_argument("--headless")
-    options.add_argument("--disable-gpu")
-    options.add_argument("--no-sandbox")
 
+    options.add_argument(
+        "--headless=new"
+    )  # Ou apenas "--headless" se estiver com Chrome < 112
+    options.add_argument("--no-sandbox")  # CRUCIAL para Linux/Docker
+    options.add_argument("--disable-gpu")  # Recomendado para headless
+    options.add_argument("--window-size=1920,1080")  # Garante um tamanho de tela padrão
+    options.add_argument(
+        "user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+    )
+    options.add_argument(
+        "--disable-blink-features=AutomationControlled"
+    )  # Ajuda a evitar detecção de bot
     prefs = {
         "download.default_directory": str(pdf_downloads),
         "plugins.always_open_pdf_externally": True,  # Baixa em vez de abrir no navegador
