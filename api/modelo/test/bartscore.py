@@ -11,11 +11,11 @@ class BartEvaluator:
         self.model.eval()
 
     def score(self, reference, hypothesis, normalize=True):
-        input_ids = self.tokenizer(reference, return_tensors="pt").input_ids.to(
+        input_ids = self.tokenizer(reference, max_length=1024, truncation=True, return_tensors="pt").input_ids.to(
             self.model.device
         )
         with self.tokenizer.as_target_tokenizer():
-            labels = self.tokenizer(hypothesis, return_tensors="pt").input_ids.to(
+            labels = self.tokenizer(hypothesis, max_length=1024, truncation=True, return_tensors="pt").input_ids.to(
                 self.model.device
             )
 
@@ -29,11 +29,67 @@ class BartEvaluator:
             return -(loss.item() * labels.size(1))
 
 
+
+
 if __name__ == "__main__":
-    bart_evaluator = BartEvaluator()
-    reference = "Photosynthesis is the process by which plants convert sunlight into chemical energy."
-    hypothesis = "Plants use sunlight to make energy, a process called photosynthesis."
+    import pandas as pd
+    from tqdm import tqdm
+    import re
 
-    result = bart_evaluator.score(reference, hypothesis)
-    print(result)
+    bart_score = BartEvaluator()
 
+    nome_base = None
+    # models = [
+    #     "gpt-3.5-turbo",
+    #     "llama-3.1-8b-instant",
+    #     "llama-3.3-70b-versatile",
+    #     "llama3-8b-8192",
+    #     "llama3-70b-8192",
+    #     "whisper-large-v3",
+    #     "whisper-large-v3-turbo",
+    #
+    # ]
+    #
+    models = [
+        "llama-3.3-70b-versatile",
+        "llama3-8b-8192",
+        "llama3-70b-8192",
+
+    ]
+
+
+    for model in models:
+        resultados = []
+        path = f"./data/{model}_answers.csv"
+
+        df = pd.read_csv(path)
+
+        match = re.search(r"\./data/([a-zA-Z0-9\-_.]+)\.csv", path)
+
+        if match:
+            nome_base = match.group(1)
+            print(nome_base)
+
+        if nome_base:
+            for _, row in tqdm(df.iterrows(), total=len(df)):
+                if (
+                    pd.isnull(row["Pergunta"])
+                    or pd.isnull(row["Resposta"])
+                    or pd.isnull(row["Resposta_Gerada"])
+                ):
+                    continue
+
+                evaluation = bart_score.score(
+                    hypothesis=row["Resposta_Gerada"], reference=row["Resposta"]
+                )
+
+                resultados.append(
+                    {
+                        "Pergunta": row["Pergunta"],
+                        "Resposta_Esperada": row["Resposta"],
+                        "Resposta_Gerada": row["Resposta_Gerada"],
+                        "Score": evaluation,
+                    }
+                )
+
+            pd.DataFrame(resultados).to_csv(f"./resultados/bartscore/{nome_base}.csv")
