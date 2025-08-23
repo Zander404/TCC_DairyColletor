@@ -55,8 +55,6 @@ if __name__ == "__main__":
         "llama-3.3-70b-versatile",
         "llama3-8b-8192",
         "llama3-70b-8192",
-        "whisper-large-v3",
-        "whisper-large-v3-turbo",
     ]
 
     for model in models:

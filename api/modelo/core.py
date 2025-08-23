@@ -12,10 +12,8 @@ def generate_answers_csv(model: str, call_api):
     filename = f"{model}_answers.csv"
 
     try:
-        file_exists = os.path.exists(filename) and os.path.getsize(filename) > 0
-
-        if not file_exists:
-            filename = "500perguntasgadoleite.csv"
+        file_exists = os.path.exists(
+            filename) and os.path.getsize(filename) > 0
 
         print(filename)
         with open(filename, "r", newline="", encoding="utf-8") as infile:
@@ -30,12 +28,15 @@ def generate_answers_csv(model: str, call_api):
                     data.append(linha)
                     continue
 
-                response = call_api(linha["Pergunta"], model)
-                linha["Resposta_Gerada"] = response
+                else:
 
-                data.append(linha)
+                    response = call_api(linha["Pergunta"], model)
+                    linha["Resposta_Gerada"] = response
 
-            save_csv(f"{model}_answers.csv", header=headers, data=data, save_type="w")
+                    data.append(linha)
+
+            save_csv(f"{model}_answers.csv", header=headers,
+                     data=data, save_type="w")
 
     except Exception as e:
         print("Arquivo não encontrado; Erro: ", e)
@@ -43,10 +44,11 @@ def generate_answers_csv(model: str, call_api):
 
 def main():
     # Teste com GPT
-    # generate_answers_csv(model="gpt-3.5-turbo", call_api=chatgpt_call)
-    ### Teste Com Groq
-    for model in models_groq:
-        generate_answers_csv(model, call_api=groq_call)
+    generate_answers_csv(model="gpt-3.5-turbo", call_api=chatgpt_call)
+
+    # Teste Com Groq
+    # for model in models_groq:
+    #    generate_answers_csv(model, call_api=groq_call)
 
 
 if __name__ == "__main__":

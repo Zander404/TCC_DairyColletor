@@ -28,6 +28,6 @@ def chatgpt_call(prompt: str, model):
 
 if __name__ == "__main__":
     print("Modulo GPT")
-    model = "gpt-3.5-turbo"
+    model = "gpt-4"
     response = chatgpt_call("Definição de Automação", model)
     print(response)
