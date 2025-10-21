@@ -1,8 +1,8 @@
 import os
-from langchain_core import embeddings
 from langchain_ollama.embeddings import OllamaEmbeddings
-from langchain_community.vectorstores import Chroma
-from langchain_community.chat_models import ChatOllama
+from langchain_ollama import ChatOllama
+from langchain_chroma import Chroma
+from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.runnables import RunnablePassthrough, RunnableLambda
 
 OLLAMA_MODEL = "qwen2"
@@ -12,7 +12,7 @@ CHROMA_DB_PATH = "./chroma_db_ollama/"
 
 PROMPT_TEMPLATE = """
 Você é um Especialista na área de AgroPecuária, como Veterinario Bovino e Especialista sobre produção leiteira.
-Respondas as Perguntas do usuário APENAS com base no contexto fornecido abaixo.
+Responda as Perguntas do usuário APENAS com base no contexto fornecido abaixo.
 Se a resposta não puder ser encontrada no contexto, diga educadamente que o contexto fornecido não contém a informação, mas NÃO tente inventar a resposta
 
 CONTEXTO:
@@ -34,3 +34,33 @@ def run_rag_pipeline(user_question):
                        embedding_function=embeddings)
 
     # 2º Configurar retriever
+    retriever = vector_db.as_retriever(search_kwargs={"k": 5})
+
+    # 3º Configurar LLM
+    llm = ChatOllama(model=OLLAMA_MODEL, temperature=0)
+    prompt = ChatPromptTemplate.from_template(PROMPT_TEMPLATE)
+
+    # 4º Cadeia de RAG
+    rag_chain = (
+        {
+            "context": retriever | RunnableLambda(format_docs),
+            "question": RunnablePassthrough(),
+        }
+        | prompt
+        | llm
+    )
+
+    # 5º Execução e Geração
+    response = rag_chain.invoke(user_question)
+    print("--- RESPOSTA DO LLM LOCAL")
+
+    print(response.content)
+
+
+if __name__ == "__main__":
+    if os.path.exists(CHROMA_DB_PATH):
+        pergunta = "Quem é Alexandre?"
+        run_rag_pipeline(pergunta)
+
+    else:
+        print("ERRO: O Banco de Dados não foi encontrado ou carregado corretamente")
