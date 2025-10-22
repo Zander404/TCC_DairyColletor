@@ -52,9 +52,17 @@ def run_rag_pipeline(user_question):
 
     # 5º Execução e Geração
     response = rag_chain.invoke(user_question)
-    print("--- RESPOSTA DO LLM LOCAL")
-
+    print("--- RESPOSTA DO LLM LOCAL ---")
     print(response.content)
+
+    # for i, doc in enumerate(response):
+    #     print(f"\n DOCUMENTO {i+1}")
+    #     print(f"Conteúdo do Trecho: {doc.page_content}")
+    #
+    #     if doc.metadata:
+    #         print(f"Fonte (Metadata): {
+    #               doc.metadata.get('source', 'Não Especialista')}")
+    #         print(f"Página: {doc.metadata)
 
 
 if __name__ == "__main__":
