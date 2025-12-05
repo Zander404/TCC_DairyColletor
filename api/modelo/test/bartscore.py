@@ -1,4 +1,3 @@
-
 import torch
 import torch.nn as nn
 import traceback
@@ -8,7 +7,9 @@ import numpy as np
 
 
 class BARTScorer:
-    def __init__(self, device='cuda:0', max_length=1024, checkpoint='facebook/bart-large-cnn'):
+    def __init__(
+        self, device="cuda:0", max_length=1024, checkpoint="facebook/bart-large-cnn"
+    ):
         # Set up model
         self.device = device
         self.max_length = max_length
@@ -18,17 +19,19 @@ class BARTScorer:
         self.model.to(device)
 
         # Set up loss
-        self.loss_fct = nn.NLLLoss(reduction='none', ignore_index=self.model.config.pad_token_id)
+        self.loss_fct = nn.NLLLoss(
+            reduction="none", ignore_index=self.model.config.pad_token_id
+        )
         self.lsm = nn.LogSoftmax(dim=1)
 
     def load(self, path=None):
-        """ Load model from paraphrase finetuning """
+        """Load model from paraphrase finetuning"""
         if path is None:
-            path = 'models/bart.pth'
+            path = "models/bart.pth"
         self.model.load_state_dict(torch.load(path, map_location=self.device))
 
     def score(self, srcs, tgts, batch_size=4):
-        """ Score a batch of examples """
+        """Score a batch of examples"""
         score_list = []
         for i in range(0, len(srcs), batch_size):
             src_list = srcs[i: i + batch_size]
@@ -40,28 +43,27 @@ class BARTScorer:
                         max_length=self.max_length,
                         truncation=True,
                         padding=True,
-                        return_tensors='pt'
+                        return_tensors="pt",
                     )
                     encoded_tgt = self.tokenizer(
                         tgt_list,
                         max_length=self.max_length,
                         truncation=True,
                         padding=True,
-                        return_tensors='pt'
+                        return_tensors="pt",
                     )
-                    src_tokens = encoded_src['input_ids'].to(self.device)
-                    src_mask = encoded_src['attention_mask'].to(self.device)
+                    src_tokens = encoded_src["input_ids"].to(self.device)
+                    src_mask = encoded_src["attention_mask"].to(self.device)
 
-                    tgt_tokens = encoded_tgt['input_ids'].to(self.device)
-                    tgt_mask = encoded_tgt['attention_mask']
+                    tgt_tokens = encoded_tgt["input_ids"].to(self.device)
+                    tgt_mask = encoded_tgt["attention_mask"]
                     tgt_len = tgt_mask.sum(dim=1).to(self.device)
 
                     output = self.model(
-                        input_ids=src_tokens,
-                        attention_mask=src_mask,
-                        labels=tgt_tokens
+                        input_ids=src_tokens, attention_mask=src_mask, labels=tgt_tokens
                     )
-                    logits = output.logits.view(-1, self.model.config.vocab_size)
+                    logits = output.logits.view(-1,
+                                                self.model.config.vocab_size)
                     loss = self.loss_fct(self.lsm(logits), tgt_tokens.view(-1))
                     loss = loss.view(tgt_tokens.shape[0], -1)
                     loss = loss.sum(dim=1) / tgt_len
@@ -70,8 +72,8 @@ class BARTScorer:
 
             except RuntimeError:
                 traceback.print_exc()
-                print(f'source: {src_list}')
-                print(f'target: {tgt_list}')
+                print(f"source: {src_list}")
+                print(f"target: {tgt_list}")
                 exit(0)
         return score_list
 
@@ -79,7 +81,8 @@ class BARTScorer:
         # Assert we have the same number of references
         ref_nums = [len(x) for x in tgts]
         if len(set(ref_nums)) > 1:
-            raise Exception("You have different number of references per test sample.")
+            raise Exception(
+                "You have different number of references per test sample.")
 
         ref_num = len(tgts[0])
         score_matrix = []
@@ -96,18 +99,15 @@ class BARTScorer:
         return list(score_list)
 
     def test(self, batch_size=3):
-        """ Test """
+        """Test"""
         src_list = [
-            'This is a very good idea. Although simple, but very insightful.',
-            'Can I take a look?',
-            'Do not trust him, he is a liar.'
+            "This is a very good idea. Although simple, but very insightful.",
+            "Can I take a look?",
+            "Do not trust him, he is a liar.",
         ]
 
-        tgt_list = [
-            "That's stupid.",
-            "What's the problem?",
-            'He is trustworthy.'
-        ]
+        tgt_list = ["That's stupid.",
+                    "What's the problem?", "He is trustworthy."]
 
         print(self.score(src_list, tgt_list, batch_size))
 
@@ -122,15 +122,14 @@ if __name__ == "__main__":
     nome_base = None
 
     models = [
-        #"gpt-3.5-turbo",
-        #"gpt-4",
-        #"llama-3.1-8b-instant",
-        "llama-3.3-70b-versatile",
-        "llama3-8b-8192",
-        "llama3-70b-8192",
+        # "gpt-3.5-turbo",
+        # "gpt-4",
+        # "llama-3.1-8b-instant",
+        "rag_answers",
+        # "llama-3.3-70b-versatile",
+        # "llama3-8b-8192",
+        # "llama3-70b-8192",
     ]
-
-
 
     batch_size = 8  # pode ajustar conforme a GPU/CPU aguentar
     buffer_src, buffer_tgt, buffer_meta = [], [], []
@@ -149,8 +148,9 @@ if __name__ == "__main__":
 
         # Se atingiu o tamanho do batch, processa
         if len(buffer_src) == batch_size:
-            scores = bart_score.score(buffer_src, buffer_tgt, batch_size=batch_size)
-            
+            scores = bart_score.score(
+                buffer_src, buffer_tgt, batch_size=batch_size)
+
             for r, s in zip(buffer_meta, scores):
                 resultados.append(
                     {
@@ -162,9 +162,10 @@ if __name__ == "__main__":
                 )
             buffer_src, buffer_tgt, buffer_meta = [], [], []
 
-# Se sobrou algo menor que o batch no final, processa também
+    # Se sobrou algo menor que o batch no final, processa também
     if buffer_src:
-        scores = bart_score.score(buffer_src, buffer_tgt, batch_size=batch_size)
+        scores = bart_score.score(
+            buffer_src, buffer_tgt, batch_size=batch_size)
         for r, s in zip(buffer_meta, scores):
             resultados.append(
                 {
@@ -175,6 +176,7 @@ if __name__ == "__main__":
                 }
             )
 
-# Salva tudo
-    pd.DataFrame(resultados).to_csv(f"./resultados/bartscore/{nome_base}.csv", index=False)
-
+    # Salva tudo
+    pd.DataFrame(resultados).to_csv(
+        f"./resultados/bartscore/{nome_base}.csv", index=False
+    )

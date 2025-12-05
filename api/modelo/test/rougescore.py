@@ -35,12 +35,13 @@ if __name__ == "__main__":
     import re
 
     models = [
-        "gpt-3.5-turbo",
+        # "gpt-3.5-turbo",
         # "llama-3.1-8b-instant",
         # "llama-3.3-70b-versatile",
         # "llama3-8b-8192",
         # "llama3-70b-8192",
-        # "gpt-4"
+        # "gpt-4",
+        "RAG"
     ]
 
     for model in models:
@@ -61,10 +62,10 @@ if __name__ == "__main__":
 
         if nome_base:
             for _, row in tqdm(df.iterrows(), total=len(df)):
-                if (pd.isnull(row["Resposta_Gerada"])):
+                if pd.isnull(row["Resposta_Gerada"]):
                     row["Resposta_Gerada"] = ""
 
-                if (pd.isnull(row["Pergunta"]) and pd.isnull(row["Resposta"])):
+                if pd.isnull(row["Pergunta"]) and pd.isnull(row["Resposta"]):
                     row["Pergunta"] = ""
                     row["Resposta"] = ""
 
@@ -83,5 +84,4 @@ if __name__ == "__main__":
                     }
                 )
 
-            pd.DataFrame(resultados).to_csv(
-                f"./resultados/rouge/{nome_base}.csv")
+            pd.DataFrame(resultados).to_csv(f"./resultados/rouge/{nome_base}.csv")

@@ -8,8 +8,8 @@ from nltk import word_tokenize
 from nltk.tokenize import sent_tokenize
 import json
 
-nltk.download('stopwords')
-detokenizer = MosesDetokenizer('en')
+nltk.download("stopwords")
+detokenizer = MosesDetokenizer("en")
 
 
 def read_demos(json_path):
@@ -28,31 +28,31 @@ def lower_check(text):
 
 
 def add_dot(text):
-    if text.strip()[-1] != '.':
-        text = text.strip() + ' .'
+    if text.strip()[-1] != ".":
+        text = text.strip() + " ."
     new_text = text
     return new_text
 
 
 def str2bool(v):
-    if v.lower() in ('yes', 'true', 't', 'y', '1'):
+    if v.lower() in ("yes", "true", "t", "y", "1"):
         return True
-    elif v.lower() in ('no', 'false', 'f', 'n', '0'):
+    elif v.lower() in ("no", "false", "f", "n", "0"):
         return False
     else:
-        raise argparse.ArgumentTypeError('Boolean value expected.')
+        raise argparse.ArgumentTypeError("Boolean value expected.")
 
 
 def read_pickle(file):
-    with open(file, 'rb') as f:
+    with open(file, "rb") as f:
         data = pickle.load(f)
     return data
 
 
 def save_pickle(data, file):
-    with open(file, 'wb') as f:
+    with open(file, "wb") as f:
         pickle.dump(data, f)
-    print(f'Saved to {file}.')
+    print(f"Saved to {file}.")
 
 
 def detokenize(text: str):

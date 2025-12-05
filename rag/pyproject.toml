@@ -9,5 +9,6 @@ dependencies = [
     "langchain>=1.0.1",
     "langchain-community>=0.4",
     "langchain-ollama>=1.0.0",
+    "lightrag-hku>=1.4.9.4",
     "pypdf>=6.1.2",
 ]

@@ -5,7 +5,6 @@ import openai
 
 
 class GPT3Model(object):
-
     def __init__(self, model_name, api_key, logger=None):
         self.model_name = model_name
         try:
@@ -25,16 +24,17 @@ class GPT3Model(object):
         assert input + output == out["text"]
         i = 0
         # find the end position of the input...
-        i = out['logprobs']['text_offset'].index(len(input) - 1)
+        i = out["logprobs"]["text_offset"].index(len(input) - 1)
         if i == 0:
             i = i + 1
 
-        print('eval text', out['logprobs']['tokens'][i: -1])
-        loss = -sum(out['logprobs']["token_logprobs"]
+        print("eval text", out["logprobs"]["tokens"][i:-1])
+        loss = -sum(out["logprobs"]["token_logprobs"]
                     [i:-1])  # ignore the last '.'
-        # 1 is the last '.'
-        avg_loss = loss / (len(out['logprobs']['text_offset']) - i-1)
-        print('avg_loss: ', avg_loss)
+        avg_loss = loss / (
+            len(out["logprobs"]["text_offset"]) - i - 1
+        )  # 1 is the last '.'
+        print("avg_loss: ", avg_loss)
         losses.append(avg_loss)
 
         return avg_loss
@@ -44,15 +44,17 @@ class GPT3Model(object):
         received = False
         while not received:
             try:
-                response = openai.Completion.create(engine=self.model_name,
-                                                    prompt=prompt,
-                                                    max_tokens=max_len,
-                                                    temperature=temp,
-                                                    logprobs=num_log_probs,
-                                                    echo=echo,
-                                                    stop='\n',
-                                                    n=n)
-                print('prompt: ', prompt)
+                response = openai.Completion.create(
+                    engine=self.model_name,
+                    prompt=prompt,
+                    max_tokens=max_len,
+                    temperature=temp,
+                    logprobs=num_log_probs,
+                    echo=echo,
+                    stop="\n",
+                    n=n,
+                )
+                print("prompt: ", prompt)
                 received = True
             except:
                 error = sys.exc_info()[0]
