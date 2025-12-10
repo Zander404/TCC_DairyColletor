@@ -41,7 +41,8 @@ if __name__ == "__main__":
         # "llama3-8b-8192",
         # "llama3-70b-8192",
         # "gpt-4",
-        "RAG"
+        # "RAG",
+        "qwen2"
     ]
 
     for model in models:

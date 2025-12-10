@@ -34,8 +34,8 @@ class BARTScorer:
         """Score a batch of examples"""
         score_list = []
         for i in range(0, len(srcs), batch_size):
-            src_list = srcs[i: i + batch_size]
-            tgt_list = tgts[i: i + batch_size]
+            src_list = srcs[i : i + batch_size]
+            tgt_list = tgts[i : i + batch_size]
             try:
                 with torch.no_grad():
                     encoded_src = self.tokenizer(
@@ -62,8 +62,7 @@ class BARTScorer:
                     output = self.model(
                         input_ids=src_tokens, attention_mask=src_mask, labels=tgt_tokens
                     )
-                    logits = output.logits.view(-1,
-                                                self.model.config.vocab_size)
+                    logits = output.logits.view(-1, self.model.config.vocab_size)
                     loss = self.loss_fct(self.lsm(logits), tgt_tokens.view(-1))
                     loss = loss.view(tgt_tokens.shape[0], -1)
                     loss = loss.sum(dim=1) / tgt_len
@@ -81,8 +80,7 @@ class BARTScorer:
         # Assert we have the same number of references
         ref_nums = [len(x) for x in tgts]
         if len(set(ref_nums)) > 1:
-            raise Exception(
-                "You have different number of references per test sample.")
+            raise Exception("You have different number of references per test sample.")
 
         ref_num = len(tgts[0])
         score_matrix = []
@@ -106,8 +104,7 @@ class BARTScorer:
             "Do not trust him, he is a liar.",
         ]
 
-        tgt_list = ["That's stupid.",
-                    "What's the problem?", "He is trustworthy."]
+        tgt_list = ["That's stupid.", "What's the problem?", "He is trustworthy."]
 
         print(self.score(src_list, tgt_list, batch_size))
 
@@ -125,11 +122,14 @@ if __name__ == "__main__":
         # "gpt-3.5-turbo",
         # "gpt-4",
         # "llama-3.1-8b-instant",
-        "rag_answers",
         # "llama-3.3-70b-versatile",
         # "llama3-8b-8192",
         # "llama3-70b-8192",
+        # "rag_answers",
+        "qwen2"
     ]
+
+    df = pd.read_csv("data/500perguntasgadoleite.csv")
 
     batch_size = 8  # pode ajustar conforme a GPU/CPU aguentar
     buffer_src, buffer_tgt, buffer_meta = [], [], []
@@ -148,8 +148,7 @@ if __name__ == "__main__":
 
         # Se atingiu o tamanho do batch, processa
         if len(buffer_src) == batch_size:
-            scores = bart_score.score(
-                buffer_src, buffer_tgt, batch_size=batch_size)
+            scores = bart_score.score(buffer_src, buffer_tgt, batch_size=batch_size)
 
             for r, s in zip(buffer_meta, scores):
                 resultados.append(
@@ -164,8 +163,7 @@ if __name__ == "__main__":
 
     # Se sobrou algo menor que o batch no final, processa também
     if buffer_src:
-        scores = bart_score.score(
-            buffer_src, buffer_tgt, batch_size=batch_size)
+        scores = bart_score.score(buffer_src, buffer_tgt, batch_size=batch_size)
         for r, s in zip(buffer_meta, scores):
             resultados.append(
                 {

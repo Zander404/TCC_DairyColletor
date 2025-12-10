@@ -17,15 +17,15 @@ if __name__ == "__main__":
 
     nome_base = None
     models = [
-        #     "gpt-3.5-turbo",
-        #     "llama-3.1-8b-instant",
-        #     "llama-3.3-70b-versatile",
-        #     "llama3-8b-8192",
-        #     "llama3-70b-8192",
-        #     "gpt-4",
-        "RAG"
+        # "gpt-3.5-turbo",
+        # "gpt-4",
+        # "llama-3.1-8b-instant",
+        # "llama-3.3-70b-versatile",
+        # "llama3-8b-8192",
+        # "llama3-70b-8192",
+        # "rag_answers",
+        "qwen2"
     ]
-
     for model in models:
         resultados: list = []
         path = f"./data/{model}_answers.csv"

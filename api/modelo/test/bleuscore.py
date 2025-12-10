@@ -31,13 +31,14 @@ if __name__ == "__main__":
     blue_score = BleuScore(weights=(0.25, 0.25, 0, 0))
 
     models = [
-        # "gpt-3.5-turbo",
-        # "llama-3.1-8b-instant",
-        # "llama-3.3-70b-versatile",
-        # "llama3-8b-8192",
-        # "llama3-70b-8192",
-        # "gpt-4",
-        "RAG"
+        #     "gpt-3.5-turbo",
+        #     "llama-3.1-8b-instant",
+        #     "llama-3.3-70b-versatile",
+        #     "llama3-8b-8192",
+        #     "llama3-70b-8192",
+        #     "gpt-4",
+        # "RAG",
+        "qwen2"
     ]
 
     for model in models:
@@ -76,5 +77,4 @@ if __name__ == "__main__":
                     }
                 )
 
-            pd.DataFrame(resultados).to_csv(
-                f"./resultados/bleu/{nome_base}.csv")
+            pd.DataFrame(resultados).to_csv(f"./resultados/bleu/{nome_base}.csv")

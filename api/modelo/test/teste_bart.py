@@ -122,7 +122,8 @@ if __name__ == "__main__":
         # "llama-3.3-70b-versatile",
         # "llama3-8b-8192",
         # "llama3-70b-8192",
-        "RAG"
+        # "RAG",
+        "qwen2",
     ]
 
     for model in models:
