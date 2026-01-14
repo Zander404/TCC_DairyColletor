@@ -7,6 +7,7 @@ requires-python = ">=3.11"
 dependencies = [
     "bert-score>=0.3.13",
     "dotenv>=0.9.9",
+    "groq>=1.0.0",
     "mosestokenizer>=1.2.1",
     "nltk>=3.9.2",
     "ollama>=0.6.1",
