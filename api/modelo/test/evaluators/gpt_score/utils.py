@@ -1,7 +1,9 @@
 import os
+from pathlib import Path
 import pickle
 import sys
 
+import pandas as pd
 import nltk
 from mosestokenizer import *
 from nltk import word_tokenize
@@ -63,3 +65,33 @@ def detokenize(text: str):
 # Restore print
 def enablePrint():
     sys.stdout = sys.__stdout__
+
+
+def convert_csv_to_pkl(input_file: Path, output_path: Path) -> None:
+    sep: str = "\t" if input_file.suffix == ".tsv" else ","
+    file_name: str = input_file.stem
+
+    df: pd.DataFrame = pd.read_csv(input_file, sep=sep)
+    df_mapped = None
+
+    if sep == "\t":
+        df_mapped = df[["base_answer", "answer", "question"]]
+        df_mapped.columns = ["ref_summs", "sys_summ", "question"]
+
+    elif sep == ",":
+        df_mapped = df[["base_answer", "answer", "question"]]
+        df_mapped.columns = ["ref_summ", "sys_summ", "question"]
+
+    data_list = df_mapped.to_dict(orient="records")
+
+    with open(f"{output_path / file_name}.pkl", "wb") as f:
+        pickle.dump(data_list, f)
+
+    print("O arquivo foi salvo")
+
+
+if __name__ == "__main__":
+    input_file: Path = Path("./datas/500perguntasgadoleite.naive_rag.GRAG.tsv")
+    output_path: Path = Path("./datas/")
+
+    convert_csv_to_pkl(input_file, output_path)

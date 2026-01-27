@@ -1,5 +1,8 @@
+import csv
 from pathlib import Path
 from typing import Dict, List, Tuple
+
+from pandas.core.algorithms import mode
 from api.modelo.test.evaluators.bleuscore import BleuScore
 from api.utils.save_csv import save_results_in_csv
 import pandas as pd
@@ -35,16 +38,42 @@ def evaluate_answers(
     models: Tuple[str, ...],
     path_to_csv_model: Path = Path("api/modelo/test/data/"),
 ) -> None:
-    for model in models:
-        resultados: List[Dict[str, str]] = []
+    # for model in models:
+    #     resultados: List[Dict[str, str]] = []
+    #
+    #     try:
+    #         df: pd.DataFrame = pd.read_csv(
+    #             path_to_csv_model / str(model + "_answers.csv")
+    #         )
+    #
+    #         resultados = evaluator.process_data_row(df)
+    #         save_results_in_csv(evaluator_name, resultados, model)
+    #         print(f"arquivo concluido {model}")
+    #     except FileNotFoundError as e:
+    #         print(f"O arquivo não foi encontrado {path_to_csv_model}: \n Erro: {e}")
 
+    for model in path_to_csv_model.iterdir():
+        df: pd.DataFrame = pd.DataFrame()
         try:
-            df: pd.DataFrame = pd.read_csv(
-                path_to_csv_model / str(model + "_answers.csv")
-            )
+            print(model.suffix)
+            if model.suffix == ".csv":
+                df = pd.read_csv(path_to_csv_model / str(model.name))
+                print("CSV")
+
+            elif model.suffix == ".tsv":
+                df = pd.read_csv(path_to_csv_model / str(model.name), sep="\t")
+                df.rename(
+                    columns={
+                        "question": "Pergunta",
+                        "base_answer": "Resposta",
+                        "answer": "Resposta_Gerada",
+                    },
+                    inplace=True,
+                )
+                print(df.tail())
 
             resultados = evaluator.process_data_row(df)
-            save_results_in_csv(evaluator_name, resultados, model)
+            save_results_in_csv(evaluator_name, resultados, model.name)
             print(f"arquivo concluido {model}")
         except FileNotFoundError as e:
             print(f"O arquivo não foi encontrado {path_to_csv_model}: \n Erro: {e}")
@@ -52,10 +81,10 @@ def evaluate_answers(
 
 if __name__ == "__main__":
     EVALUATORS_LIST: Tuple[str, ...] = (
-        # "bleuscore",
-        # "bartscore",
-        # "bertscore",
-        # "rougescore",
+        "bleuscore",
+        "rougescore",
+        "bartscore",
+        "bertscore",
         # "gptscore",
     )
 

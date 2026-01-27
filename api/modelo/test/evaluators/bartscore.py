@@ -114,7 +114,7 @@ class BARTScorer(BaseEvaluator):
         print(self.score(src_list, tgt_list, batch_size))
 
     def process_data_row(
-        self, dataframe: pd.DataFrame, batch_size: int = 8
+        self, dataframe: pd.DataFrame, batch_size: int = 1
     ) -> List[Dict[str, str]]:
         result: List[Dict[str, str]] = []
         buffer_meta, buffer_src, buffer_tgt = [], [], []
@@ -138,7 +138,6 @@ class BARTScorer(BaseEvaluator):
                             "Score": s,
                         }
                     )
-            buffer_src, buffer_tgt, buffer_meta = [], [], []
 
         # Processa sobra
         if buffer_src:
