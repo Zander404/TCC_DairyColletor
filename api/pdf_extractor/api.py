@@ -3,8 +3,6 @@ from fastapi.responses import FileResponse
 from api.pdf_extractor import core
 import os
 
-import string
-
 
 router = APIRouter(prefix="/pdf_extractor")
 download_path = core.pdf_downloads

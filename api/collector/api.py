@@ -16,7 +16,12 @@ def index():
     description="Rota para realizar a busca de ID's de artigos através das Keywords pré-setadas e salvar em CSV no BackEnd",
 )
 async def start_collect_article_id(start: int = 0, limit: int = 1000, step: int = 1000):
-    await collect_articleID(start=start, limit=limit, step=step)
+    await collect_articleID(
+        input_file="../../../500perguntasgadoleite.csv",
+        start=start,
+        limit=limit,
+        step=step,
+    )
 
     return FileResponse("collect.csv", media_type="text/csv", filename="PubMedIDs.csv")
 
