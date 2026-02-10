@@ -18,8 +18,8 @@ MODELS_GROQ: Tuple = (
     "llama-3.1-8b-instant",
     "llama3-70b-8192",
     "llama3-8b-8192",
-    "whisper-large-v3",
-    "whisper-large-v3-turbo",
+    # "whisper-large-v3",
+    # "whisper-large-v3-turbo",
 )
 
 
@@ -43,7 +43,7 @@ class GroqAgent(BaseAgent):
         try:
             completions = self.client.chat.completions.create(
                 model=self.model,
-                message=message,
+                messages=message,
             )
 
             return completions.choices[0].message.content

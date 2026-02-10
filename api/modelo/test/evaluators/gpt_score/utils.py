@@ -1,9 +1,13 @@
-import os
 from pathlib import Path
+from typing import List
+from nltk.lm import models
+import pandas as pd
+
+
+import os
 import pickle
 import sys
 
-import pandas as pd
 import nltk
 from mosestokenizer import *
 from nltk import word_tokenize
@@ -30,10 +34,13 @@ def lower_check(text):
 
 
 def add_dot(text):
+    # Verifica se o texto existe e não é apenas espaços
+    if not text or not text.strip():
+        return "."  # Ou return text, dependendo se você quer manter vazio
+
     if text.strip()[-1] != ".":
-        text = text.strip() + " ."
-    new_text = text
-    return new_text
+        return text.strip() + "."
+    return text.strip()
 
 
 def str2bool(v):
@@ -67,31 +74,116 @@ def enablePrint():
     sys.stdout = sys.__stdout__
 
 
-def convert_csv_to_pkl(input_file: Path, output_path: Path) -> None:
-    sep: str = "\t" if input_file.suffix == ".tsv" else ","
-    file_name: str = input_file.stem
+def convert_csv_to_json(base_path: Path, file_name: Path) -> None:
+    print(f"Convertendo o arquivo {file_name}.")
+    output_path: Path = base_path / file_name.stem
 
-    df: pd.DataFrame = pd.read_csv(input_file, sep=sep)
-    df_mapped = None
+    output_file: Path = output_path / "data.pkl"
 
-    if sep == "\t":
-        df_mapped = df[["base_answer", "answer", "question"]]
-        df_mapped.columns = ["ref_summs", "sys_summ", "question"]
+    output_path.mkdir(parents=True, exist_ok=True)
 
-    elif sep == ",":
-        df_mapped = df[["base_answer", "answer", "question"]]
-        df_mapped.columns = ["ref_summ", "sys_summ", "question"]
+    delimiter: str = "\t" if file_name.suffix == ".tsv" else ","
+    df = pd.read_csv(file_name, delimiter=delimiter)
 
-    data_list = df_mapped.to_dict(orient="records")
+    columns: List[str] = [
+        "src",
+        "ref_summs",
+        "sys_summ",
+        "aspect",
+        "polarity",
+        "sys_name",
+    ]
 
-    with open(f"{output_path / file_name}.pkl", "wb") as f:
+    if delimiter == "\t":
+        df = df.rename(
+            columns={
+                "question": "src",
+                "base_answer": "ref_summs",
+                "answer": "sys_summ",
+            }
+        )
+
+    elif delimiter == ",":
+        df = df.rename(
+            columns={
+                "Pergunta": "src",
+                "Resposta": "ref_summs",
+                "Resposta_Gerada": "sys_summ",
+            }
+        )
+
+    df["aspect"] = "informativeness"
+    df["polarity"] = "positive"
+    df["sys_name"] = file_name.stem
+    df["sys_summ"] = (
+        df["sys_summ"].fillna("").apply(lambda text: text.replace("\n", " ").strip())
+    )
+    df["ref_summs"] = (
+        df["ref_summs"]
+        .fillna("")
+        .apply(
+            lambda text: [text.replace("\n", " ").strip()]
+            if isinstance(text, str)
+            else text.replace("\n", " ").strip()
+        )
+    )
+    df = df[columns]
+
+    data_list = df.to_dict(orient="records")  # Transforma em lista de dicionários
+    with open(output_file, "wb") as f:
         pickle.dump(data_list, f)
 
-    print("O arquivo foi salvo")
+    df.to_json(
+        f"{output_path / file_name.name}.json",
+        orient="records",
+        force_ascii=False,
+        indent=4,
+    )
+
+    demo_path = base_path / "demos" / "d2t"
+    with open(f"{demo_path}/{file_name.stem}_demos.json", "w") as f:
+        json.dump(
+            {
+                "asp_definition": {"informativeness": ""},
+                "demo": {"informativeness": []},
+            },
+            f,
+        )
+
+
+def convert_json_to_csv(json_file: Path):
+    df_json = pd.read_json(json_file)
+
+    df_json = df_json.T
+
+    output_path = json_file.with_suffix(".csv")
+    df_json.to_csv(output_path, index=True)
 
 
 if __name__ == "__main__":
-    input_file: Path = Path("./datas/500perguntasgadoleite.naive_rag.GRAG.tsv")
-    output_path: Path = Path("./datas/")
+    base_path: Path = Path("./datas/")
+    models = [
+        "gpt-oss_com_5_docs",
+        "gpt-oss_com_15_docs",
+        "lllama3.1-naive_com_5_docs",
+        "lllama3.1-naive_com_10_docs",
+        "lllama3.1-naive_com_15_docs",
+        "gpt-oss_com_10_docs",
+    ]
 
-    convert_csv_to_pkl(input_file, output_path)
+    for file in base_path.iterdir():
+        if file.is_file():
+            models.append(file.stem)
+            convert_csv_to_json(base_path, file)
+
+    print(models)
+    # base_results_dir: Path = Path("./analysis/d2t/")
+    # base_pkl_dir: Path = Path("./datas/")
+    #
+    # try:
+    #     for json in base_results_dir.rglob("*.json"):
+    #         convert_json_to_csv(json)
+    #         print("Conversão finalizada")
+    #
+    # except Exception as e:
+    #     print(e)
