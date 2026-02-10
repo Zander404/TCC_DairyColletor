@@ -1,0 +1,404 @@
+{
+    "0": {
+        "gpt3_score_informativeness_ref_hypo": -1.4771143264469682,
+        "gpt3_score_informativeness_hypo_ref": -1.8964691947562498,
+        "gpt3_score_informativeness_avg_f": -1.686791760601609,
+        "gpt3_score_informativeness_harm_f": -1.660727709649645
+    },
+    "1": {
+        "gpt3_score_informativeness_ref_hypo": -1.5116341278927299,
+        "gpt3_score_informativeness_hypo_ref": -1.8788773400612775,
+        "gpt3_score_informativeness_avg_f": -1.6952557339770036,
+        "gpt3_score_informativeness_harm_f": -1.675366761743965
+    },
+    "2": {
+        "gpt3_score_informativeness_ref_hypo": -1.5396174579747537,
+        "gpt3_score_informativeness_hypo_ref": -1.9385662923433749,
+        "gpt3_score_informativeness_avg_f": -1.7390918751590643,
+        "gpt3_score_informativeness_harm_f": -1.7162120930846518
+    },
+    "3": {
+        "gpt3_score_informativeness_ref_hypo": -1.7198616771925916,
+        "gpt3_score_informativeness_hypo_ref": -2.0089334882602965,
+        "gpt3_score_informativeness_avg_f": -1.864397582726444,
+        "gpt3_score_informativeness_harm_f": -1.853192554259318
+    },
+    "4": {
+        "gpt3_score_informativeness_ref_hypo": -1.4608460911870906,
+        "gpt3_score_informativeness_hypo_ref": -2.0621203268669417,
+        "gpt3_score_informativeness_avg_f": -1.7614832090270163,
+        "gpt3_score_informativeness_harm_f": -1.710172656556282
+    },
+    "5": {
+        "gpt3_score_informativeness_ref_hypo": -2.0512642450970016,
+        "gpt3_score_informativeness_hypo_ref": -1.9679030452625923,
+        "gpt3_score_informativeness_avg_f": -2.009583645179797,
+        "gpt3_score_informativeness_harm_f": -2.0087191514755287
+    },
+    "6": {
+        "gpt3_score_informativeness_ref_hypo": -1.7668977753068333,
+        "gpt3_score_informativeness_hypo_ref": -1.7458362339461475,
+        "gpt3_score_informativeness_avg_f": -1.7563670046264903,
+        "gpt3_score_informativeness_harm_f": -1.75630386455905
+    },
+    "7": {
+        "gpt3_score_informativeness_ref_hypo": -1.629227936048471,
+        "gpt3_score_informativeness_hypo_ref": -1.7745402950294105,
+        "gpt3_score_informativeness_avg_f": -1.7018841155389408,
+        "gpt3_score_informativeness_harm_f": -1.6987823059797864
+    },
+    "8": {
+        "gpt3_score_informativeness_ref_hypo": -1.8389129248521727,
+        "gpt3_score_informativeness_hypo_ref": -2.301252184628204,
+        "gpt3_score_informativeness_avg_f": -2.070082554740188,
+        "gpt3_score_informativeness_harm_f": -2.0442674500912488
+    },
+    "9": {
+        "gpt3_score_informativeness_ref_hypo": -1.5867102906165242,
+        "gpt3_score_informativeness_hypo_ref": -1.5862573848347339,
+        "gpt3_score_informativeness_avg_f": -1.5864838377256292,
+        "gpt3_score_informativeness_harm_f": -1.5864838054020018
+    },
+    "10": {
+        "gpt3_score_informativeness_ref_hypo": -1.6303993099658467,
+        "gpt3_score_informativeness_hypo_ref": -2.1485090430133105,
+        "gpt3_score_informativeness_avg_f": -1.8894541764895787,
+        "gpt3_score_informativeness_harm_f": -1.8539362874056995
+    },
+    "11": {
+        "gpt3_score_informativeness_ref_hypo": -2.60892200456999,
+        "gpt3_score_informativeness_hypo_ref": -2.826478434715218,
+        "gpt3_score_informativeness_avg_f": -2.717700219642604,
+        "gpt3_score_informativeness_harm_f": -2.7133462809745854
+    },
+    "12": {
+        "gpt3_score_informativeness_ref_hypo": -1.6569254072575872,
+        "gpt3_score_informativeness_hypo_ref": -1.5265316410941658,
+        "gpt3_score_informativeness_avg_f": -1.5917285241758765,
+        "gpt3_score_informativeness_harm_f": -1.5890580728401056
+    },
+    "13": {
+        "gpt3_score_informativeness_ref_hypo": -1.6541624027117166,
+        "gpt3_score_informativeness_hypo_ref": -1.6885228755222017,
+        "gpt3_score_informativeness_avg_f": -1.671342639116959,
+        "gpt3_score_informativeness_harm_f": -1.6711660382716078
+    },
+    "14": {
+        "gpt3_score_informativeness_ref_hypo": -1.3199929952713991,
+        "gpt3_score_informativeness_hypo_ref": -1.6931422898948536,
+        "gpt3_score_informativeness_avg_f": -1.5065676425831263,
+        "gpt3_score_informativeness_harm_f": -1.48346207597225
+    },
+    "15": {
+        "gpt3_score_informativeness_ref_hypo": -2.479449772479715,
+        "gpt3_score_informativeness_hypo_ref": -1.9032745653366865,
+        "gpt3_score_informativeness_avg_f": -2.191362168908201,
+        "gpt3_score_informativeness_harm_f": -2.153488708962085
+    },
+    "16": {
+        "gpt3_score_informativeness_ref_hypo": -1.7263917549024654,
+        "gpt3_score_informativeness_hypo_ref": -1.4292665062472885,
+        "gpt3_score_informativeness_avg_f": -1.577829130574877,
+        "gpt3_score_informativeness_harm_f": -1.5638410168308627
+    },
+    "17": {
+        "gpt3_score_informativeness_ref_hypo": -2.0606057162846247,
+        "gpt3_score_informativeness_hypo_ref": -1.5652128651838795,
+        "gpt3_score_informativeness_avg_f": -1.812909290734252,
+        "gpt3_score_informativeness_harm_f": -1.7790667154084991
+    },
+    "18": {
+        "gpt3_score_informativeness_ref_hypo": -1.755523163602835,
+        "gpt3_score_informativeness_hypo_ref": -1.9222589134150938,
+        "gpt3_score_informativeness_avg_f": -1.8388910385089643,
+        "gpt3_score_informativeness_harm_f": -1.8351114765768994
+    },
+    "19": {
+        "gpt3_score_informativeness_ref_hypo": -1.8699102592153511,
+        "gpt3_score_informativeness_hypo_ref": -1.7980832077346331,
+        "gpt3_score_informativeness_avg_f": -1.8339967334749923,
+        "gpt3_score_informativeness_harm_f": -1.8332934708641262
+    },
+    "20": {
+        "gpt3_score_informativeness_ref_hypo": -1.9155282332940595,
+        "gpt3_score_informativeness_hypo_ref": -1.5081671135573187,
+        "gpt3_score_informativeness_avg_f": -1.711847673425689,
+        "gpt3_score_informativeness_harm_f": -1.6876131745784448
+    },
+    "21": {
+        "gpt3_score_informativeness_ref_hypo": -1.8580079488101024,
+        "gpt3_score_informativeness_hypo_ref": -1.7399548591096794,
+        "gpt3_score_informativeness_avg_f": -1.7989814039598908,
+        "gpt3_score_informativeness_harm_f": -1.7970446785500092
+    },
+    "22": {
+        "gpt3_score_informativeness_ref_hypo": -2.1684918747388022,
+        "gpt3_score_informativeness_hypo_ref": -1.9707970645939032,
+        "gpt3_score_informativeness_avg_f": -2.0696444696663527,
+        "gpt3_score_informativeness_harm_f": -2.0649234609942053
+    },
+    "23": {
+        "gpt3_score_informativeness_ref_hypo": -2.1866777816324157,
+        "gpt3_score_informativeness_hypo_ref": -1.6802643548585912,
+        "gpt3_score_informativeness_avg_f": -1.9334710682455034,
+        "gpt3_score_informativeness_harm_f": -1.9003112031938993
+    },
+    "24": {
+        "gpt3_score_informativeness_ref_hypo": -1.620420765205857,
+        "gpt3_score_informativeness_hypo_ref": -2.6197307809333332,
+        "gpt3_score_informativeness_avg_f": -2.120075773069595,
+        "gpt3_score_informativeness_harm_f": -2.0023181296614805
+    },
+    "25": {
+        "gpt3_score_informativeness_ref_hypo": -2.0034836729607868,
+        "gpt3_score_informativeness_hypo_ref": -1.701418941662752,
+        "gpt3_score_informativeness_avg_f": -1.8524513073117694,
+        "gpt3_score_informativeness_harm_f": -1.840137474616949
+    },
+    "26": {
+        "gpt3_score_informativeness_ref_hypo": -1.726490917333461,
+        "gpt3_score_informativeness_hypo_ref": -2.016735111129411,
+        "gpt3_score_informativeness_avg_f": -1.871613014231436,
+        "gpt3_score_informativeness_harm_f": -1.8603604621023768
+    },
+    "27": {
+        "gpt3_score_informativeness_ref_hypo": -1.6097559870790867,
+        "gpt3_score_informativeness_hypo_ref": -1.6389579263066878,
+        "gpt3_score_informativeness_avg_f": -1.6243569566928873,
+        "gpt3_score_informativeness_harm_f": -1.6242257119484456
+    },
+    "28": {
+        "gpt3_score_informativeness_ref_hypo": -2.3634331548352345,
+        "gpt3_score_informativeness_hypo_ref": -1.62125302171968,
+        "gpt3_score_informativeness_avg_f": -1.9923430882774573,
+        "gpt3_score_informativeness_harm_f": -1.923224552264207
+    },
+    "29": {
+        "gpt3_score_informativeness_ref_hypo": -2.4141312736285507,
+        "gpt3_score_informativeness_hypo_ref": -2.151116291993853,
+        "gpt3_score_informativeness_avg_f": -2.2826237828112017,
+        "gpt3_score_informativeness_harm_f": -2.275047317398327
+    },
+    "30": {
+        "gpt3_score_informativeness_ref_hypo": -2.202355289331181,
+        "gpt3_score_informativeness_hypo_ref": -1.9484229129845498,
+        "gpt3_score_informativeness_avg_f": -2.0753891011578656,
+        "gpt3_score_informativeness_harm_f": -2.0676216839876256
+    },
+    "31": {
+        "gpt3_score_informativeness_ref_hypo": -6.371846899999999,
+        "gpt3_score_informativeness_hypo_ref": -1.8735920935858734,
+        "gpt3_score_informativeness_avg_f": -4.122719496792936,
+        "gpt3_score_informativeness_harm_f": -2.895720163029868
+    },
+    "32": {
+        "gpt3_score_informativeness_ref_hypo": -1.5921541522417926,
+        "gpt3_score_informativeness_hypo_ref": -2.2419814565457847,
+        "gpt3_score_informativeness_avg_f": -1.9170678043937888,
+        "gpt3_score_informativeness_harm_f": -1.8619999131523877
+    },
+    "33": {
+        "gpt3_score_informativeness_ref_hypo": -1.8991304771217166,
+        "gpt3_score_informativeness_hypo_ref": -1.9674058074775966,
+        "gpt3_score_informativeness_avg_f": -1.9332681422996565,
+        "gpt3_score_informativeness_harm_f": -1.9326653391197446
+    },
+    "34": {
+        "gpt3_score_informativeness_ref_hypo": -1.822719099013673,
+        "gpt3_score_informativeness_hypo_ref": -2.0727321731483594,
+        "gpt3_score_informativeness_avg_f": -1.9477256360810162,
+        "gpt3_score_informativeness_harm_f": -1.9397026198922416
+    },
+    "35": {
+        "gpt3_score_informativeness_ref_hypo": -1.8251174342386915,
+        "gpt3_score_informativeness_hypo_ref": -1.5302471995944666,
+        "gpt3_score_informativeness_avg_f": -1.677682316916579,
+        "gpt3_score_informativeness_harm_f": -1.6647256840662457
+    },
+    "36": {
+        "gpt3_score_informativeness_ref_hypo": -2.6384351949521423,
+        "gpt3_score_informativeness_hypo_ref": -3.652481500000001,
+        "gpt3_score_informativeness_avg_f": -3.1454583474760716,
+        "gpt3_score_informativeness_harm_f": -3.063730202068716
+    },
+    "37": {
+        "gpt3_score_informativeness_ref_hypo": -1.6989132129691802,
+        "gpt3_score_informativeness_hypo_ref": -1.9974369300585348,
+        "gpt3_score_informativeness_avg_f": -1.8481750715138574,
+        "gpt3_score_informativeness_harm_f": -1.8361204221683483
+    },
+    "38": {
+        "gpt3_score_informativeness_ref_hypo": -2.0533427845321994,
+        "gpt3_score_informativeness_hypo_ref": -2.8765704873275864,
+        "gpt3_score_informativeness_avg_f": -2.4649566359298927,
+        "gpt3_score_informativeness_harm_f": -2.3962227847161057
+    },
+    "39": {
+        "gpt3_score_informativeness_ref_hypo": -1.5231586488515365,
+        "gpt3_score_informativeness_hypo_ref": -3.001117420703736,
+        "gpt3_score_informativeness_avg_f": -2.262138034777636,
+        "gpt3_score_informativeness_harm_f": -2.020733432393417
+    },
+    "40": {
+        "gpt3_score_informativeness_ref_hypo": -2.7563342251787972,
+        "gpt3_score_informativeness_hypo_ref": -1.369836890880103,
+        "gpt3_score_informativeness_avg_f": -2.0630855580294503,
+        "gpt3_score_informativeness_harm_f": -1.8301365595577705
+    },
+    "41": {
+        "gpt3_score_informativeness_ref_hypo": -1.9368399903073978,
+        "gpt3_score_informativeness_hypo_ref": -1.7680006131384947,
+        "gpt3_score_informativeness_avg_f": -1.8524203017229461,
+        "gpt3_score_informativeness_harm_f": -1.8485730734162455
+    },
+    "42": {
+        "gpt3_score_informativeness_ref_hypo": -1.5787986613774785,
+        "gpt3_score_informativeness_hypo_ref": -1.5356118067747693,
+        "gpt3_score_informativeness_avg_f": -1.557205234076124,
+        "gpt3_score_informativeness_harm_f": -1.5569058027022653
+    },
+    "43": {
+        "gpt3_score_informativeness_ref_hypo": -1.623802311299578,
+        "gpt3_score_informativeness_hypo_ref": -1.69941098739457,
+        "gpt3_score_informativeness_avg_f": -1.661606649347074,
+        "gpt3_score_informativeness_harm_f": -1.6607465372526917
+    },
+    "44": {
+        "gpt3_score_informativeness_ref_hypo": -2.0367656740491893,
+        "gpt3_score_informativeness_hypo_ref": -1.6737758162797098,
+        "gpt3_score_informativeness_avg_f": -1.8552707451644497,
+        "gpt3_score_informativeness_harm_f": -1.8375157035907428
+    },
+    "45": {
+        "gpt3_score_informativeness_ref_hypo": -1.7034230399114074,
+        "gpt3_score_informativeness_hypo_ref": -1.9773149718733876,
+        "gpt3_score_informativeness_avg_f": -1.8403690058923976,
+        "gpt3_score_informativeness_harm_f": -1.8301785508595099
+    },
+    "46": {
+        "gpt3_score_informativeness_ref_hypo": -1.2572740913041562,
+        "gpt3_score_informativeness_hypo_ref": -1.5394488115929834,
+        "gpt3_score_informativeness_avg_f": -1.3983614514485698,
+        "gpt3_score_informativeness_harm_f": -1.3841264743817328
+    },
+    "47": {
+        "gpt3_score_informativeness_ref_hypo": -1.949869506749461,
+        "gpt3_score_informativeness_hypo_ref": -1.7086801936360723,
+        "gpt3_score_informativeness_avg_f": -1.8292748501927667,
+        "gpt3_score_informativeness_harm_f": -1.821324666441815
+    },
+    "48": {
+        "gpt3_score_informativeness_ref_hypo": -1.6501993015041108,
+        "gpt3_score_informativeness_hypo_ref": -1.6657789286933657,
+        "gpt3_score_informativeness_avg_f": -1.6579891150987383,
+        "gpt3_score_informativeness_harm_f": -1.657952515825989
+    },
+    "49": {
+        "gpt3_score_informativeness_ref_hypo": -1.9291221525509399,
+        "gpt3_score_informativeness_hypo_ref": -1.7051044978279524,
+        "gpt3_score_informativeness_avg_f": -1.817113325189446,
+        "gpt3_score_informativeness_harm_f": -1.8102089801312817
+    },
+    "50": {
+        "gpt3_score_informativeness_ref_hypo": -1.3474382236960403,
+        "gpt3_score_informativeness_hypo_ref": -1.7031147301294498,
+        "gpt3_score_informativeness_avg_f": -1.5252764769127451,
+        "gpt3_score_informativeness_harm_f": -1.504541584068149
+    },
+    "51": {
+        "gpt3_score_informativeness_ref_hypo": -1.8727606767106075,
+        "gpt3_score_informativeness_hypo_ref": -2.025428307583528,
+        "gpt3_score_informativeness_avg_f": -1.9490944921470679,
+        "gpt3_score_informativeness_harm_f": -1.9461049750135662
+    },
+    "52": {
+        "gpt3_score_informativeness_ref_hypo": -1.787145992430884,
+        "gpt3_score_informativeness_hypo_ref": -1.7751629018235209,
+        "gpt3_score_informativeness_avg_f": -1.7811544471272023,
+        "gpt3_score_informativeness_harm_f": -1.7811342924375382
+    },
+    "53": {
+        "gpt3_score_informativeness_ref_hypo": -1.3861424081695615,
+        "gpt3_score_informativeness_hypo_ref": -1.9067095208045346,
+        "gpt3_score_informativeness_avg_f": -1.646425964487048,
+        "gpt3_score_informativeness_harm_f": -1.6052777251185169
+    },
+    "54": {
+        "gpt3_score_informativeness_ref_hypo": -1.7560846339482652,
+        "gpt3_score_informativeness_hypo_ref": -1.6562284232690325,
+        "gpt3_score_informativeness_avg_f": -1.7061565286086489,
+        "gpt3_score_informativeness_harm_f": -1.7046954576805105
+    },
+    "55": {
+        "gpt3_score_informativeness_ref_hypo": -1.7496400489379857,
+        "gpt3_score_informativeness_hypo_ref": -1.791501359825646,
+        "gpt3_score_informativeness_avg_f": -1.7705707043818157,
+        "gpt3_score_informativeness_harm_f": -1.7703232743660453
+    },
+    "56": {
+        "gpt3_score_informativeness_ref_hypo": -2.0371178215560373,
+        "gpt3_score_informativeness_hypo_ref": -1.8004297083218401,
+        "gpt3_score_informativeness_avg_f": -1.9187737649389387,
+        "gpt3_score_informativeness_harm_f": -1.911474667988321
+    },
+    "57": {
+        "gpt3_score_informativeness_ref_hypo": -1.8764503686381364,
+        "gpt3_score_informativeness_hypo_ref": -1.6104445885487424,
+        "gpt3_score_informativeness_avg_f": -1.7434474785934393,
+        "gpt3_score_informativeness_harm_f": -1.7333010480427966
+    },
+    "58": {
+        "gpt3_score_informativeness_ref_hypo": -1.8615681530581545,
+        "gpt3_score_informativeness_hypo_ref": -1.9603393280095522,
+        "gpt3_score_informativeness_avg_f": -1.9109537405338535,
+        "gpt3_score_informativeness_harm_f": -1.9096774478646028
+    },
+    "59": {
+        "gpt3_score_informativeness_ref_hypo": -1.6179995753463297,
+        "gpt3_score_informativeness_hypo_ref": -1.535584638135368,
+        "gpt3_score_informativeness_avg_f": -1.5767921067408488,
+        "gpt3_score_informativeness_harm_f": -1.5757152016361031
+    },
+    "60": {
+        "gpt3_score_informativeness_ref_hypo": -1.7497070697973023,
+        "gpt3_score_informativeness_hypo_ref": -1.4452102134708147,
+        "gpt3_score_informativeness_avg_f": -1.5974586416340584,
+        "gpt3_score_informativeness_harm_f": -1.5829483543101455
+    },
+    "61": {
+        "gpt3_score_informativeness_ref_hypo": -1.825657817698973,
+        "gpt3_score_informativeness_hypo_ref": -2.108081141405811,
+        "gpt3_score_informativeness_avg_f": -1.966869479552392,
+        "gpt3_score_informativeness_harm_f": -1.9567311690794762
+    },
+    "62": {
+        "gpt3_score_informativeness_ref_hypo": -1.671555517257576,
+        "gpt3_score_informativeness_hypo_ref": -1.8251908337746228,
+        "gpt3_score_informativeness_avg_f": -1.7483731755160994,
+        "gpt3_score_informativeness_harm_f": -1.7449980650402817
+    },
+    "63": {
+        "gpt3_score_informativeness_ref_hypo": -1.851367744205965,
+        "gpt3_score_informativeness_hypo_ref": -2.3930464122038093,
+        "gpt3_score_informativeness_avg_f": -2.1222070782048874,
+        "gpt3_score_informativeness_harm_f": -2.087642145501417
+    },
+    "64": {
+        "gpt3_score_informativeness_ref_hypo": -1.9025242548652033,
+        "gpt3_score_informativeness_hypo_ref": -1.7012901634235522,
+        "gpt3_score_informativeness_avg_f": -1.8019072091443777,
+        "gpt3_score_informativeness_harm_f": -1.7962888344366181
+    },
+    "65": {
+        "gpt3_score_informativeness_ref_hypo": -1.4682478712150555,
+        "gpt3_score_informativeness_hypo_ref": -1.4530064206778643,
+        "gpt3_score_informativeness_avg_f": -1.46062714594646,
+        "gpt3_score_informativeness_harm_f": -1.4605873853177596
+    },
+    "66": {
+        "gpt3_score_informativeness_ref_hypo": -1.2549821617546462,
+        "gpt3_score_informativeness_hypo_ref": -1.593163549923323,
+        "gpt3_score_informativeness_avg_f": -1.4240728558389846,
+        "gpt3_score_informativeness_harm_f": -1.4039954681486766
+    }
+}

@@ -7,6 +7,7 @@ from api.modelo.agents.base_aiagent import BaseAgent
 from api.modelo.agents.ollama_api import OllamaAgent
 from api.modelo.agents.chatgpt_api import ChatGPTAgent
 from api.modelo.agents.groq_api import MODELS_GROQ, GroqAgent
+from api.modelo.agents.unsloth_api import UnslothAgent
 
 
 async def generate_answers_csv(
@@ -56,11 +57,11 @@ async def generate_answers_csv(
 async def main():
     teste_input_csv: str = "500perguntasgadoleite.csv"
 
-    # # Teste com GPT
-    # chatgpt_api: ChatGPTAgent = ChatGPTAgent(model="gpt-3.5-turbo")
+    # # # Teste com GPT
+    # chatgpt_api: ChatGPTAgent = ChatGPTAgent(model="gpt-4")
     #
     # await generate_answers_csv(
-    #     input_csv=teste_input_csv, model="gpt-3.5-turbo", api_agent=chatgpt_api
+    #     input_csv=teste_input_csv, model="gpt-4", api_agent=chatgpt_api
     # )
 
     # Teste Com Groq
@@ -77,6 +78,14 @@ async def main():
     # await generate_answers_csv(
     #     input_csv=teste_input_csv, model="qwen2", api_agent=ollama_api
     # )
+    #
+    #
+    unsloat_api: UnslothAgent = UnslothAgent("unsloth/llama-3-8b-bnb-4bit")
+    await generate_answers_csv(
+        input_csv=teste_input_csv,
+        model="unsloth/llama-3-8b-bnb-4bit",
+        api_agent=unsloat_api,
+    )
 
 
 if __name__ == "__main__":
