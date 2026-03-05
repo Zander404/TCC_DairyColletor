@@ -1,8 +1,9 @@
 import os
 
 from langchain_ollama import OllamaEmbeddings
-from langchain_community.document_loaders import PyPDFLoader, DirectoryLoader
+from langchain_community.document_loaders import PyMuPDFLoader, DirectoryLoader
 from langchain_community.vectorstores import Chroma
+
 
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
@@ -18,7 +19,7 @@ def create_vector_database() -> None:
     print("Iniciando Banco de Dados Vetorial...")
 
     loader = DirectoryLoader(
-        path=PDF_DIR, glob="**/*.pdf", loader_cls=PyPDFLoader, silent_errors=True
+        path=PDF_DIR, glob="**/*.pdf", loader_cls=PyMuPDFLoader, silent_errors=True
     )
 
     try:

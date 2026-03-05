@@ -40,7 +40,7 @@ class BaseAsyncCrawler(ABC):
 
     @abstractmethod
     def get_pdf_links(self, html_content: str) -> List[str]:
-        "Extair o link de downloads dos PDF's da pagina HTML"
+        "Extrair o link de downloads dos PDF's da pagina HTML"
         pass
 
     @abstractmethod
