@@ -1,13 +1,7 @@
 from abc import ABC, abstractmethod
-from typing import List
-from curl_cffi import AsyncSession
-from parsel import Selector
 from api.logger import logger
 from pathlib import Path
 import httpx
-import asyncio
-import random
-import unicodedata
 
 
 class BaseCrawler(ABC):

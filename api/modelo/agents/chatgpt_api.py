@@ -38,21 +38,6 @@ class ChatGPTAgent(BaseAgent):
             return ""
 
 
-# def chatgpt_call(prompt: str, model: str, sys_prompt: str = zero_shot) -> str | None:
-#     client = OpenAI(api_key=API_GPT)
-#     input = [
-#         {"role": "system", "content": sys_prompt},
-#         {"role": "user", "content": prompt},
-#     ]
-#
-#     try:
-#         response = client.chat.completions.create(model=model, messages=input)
-#         return response.choices[0].message.content
-#
-#     except Exception:
-#         return ""
-
-
 if __name__ == "__main__":
     print("Modulo GPT")
     model = "gpt-4"

@@ -74,6 +74,17 @@ def enablePrint():
     sys.stdout = sys.__stdout__
 
 
+def just_json(base_path: Path, file_name: Path):
+    df = pd.read_csv(file_name)
+    print(df)
+    df = df.rename(columns={"ID": "id", "Pergunta": "question", "Resposta": "answer"})
+    df["id"] = pd.to_numeric(df["id"])
+    # df = df.T
+    df.to_json(
+        file_name.name + ".jsonl", orient="records", lines=True, force_ascii=False
+    )
+
+
 def convert_csv_to_json(base_path: Path, file_name: Path) -> None:
     print(f"Convertendo o arquivo {file_name}.")
     output_path: Path = base_path / file_name.stem
@@ -162,19 +173,13 @@ def convert_json_to_csv(json_file: Path):
 
 if __name__ == "__main__":
     base_path: Path = Path("./datas/")
-    models = [
-        "gpt-oss_com_5_docs",
-        "gpt-oss_com_15_docs",
-        "lllama3.1-naive_com_5_docs",
-        "lllama3.1-naive_com_10_docs",
-        "lllama3.1-naive_com_15_docs",
-        "gpt-oss_com_10_docs",
-    ]
+    models = []
 
     for file in base_path.iterdir():
         if file.is_file():
-            models.append(file.stem)
-            convert_csv_to_json(base_path, file)
+            just_json(base_path, file)
+            # models.append(file.stem)
+            # convert_csv_to_json(base_path, file)
 
     print(models)
     # base_results_dir: Path = Path("./analysis/d2t/")
