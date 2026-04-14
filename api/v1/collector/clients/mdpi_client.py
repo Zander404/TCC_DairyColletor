@@ -1,10 +1,21 @@
 import asyncio
-from api.collector.core.basic_async_crawler import BaseAsyncCrawler
+from api.v1.collector.base.basic_async_crawler import BaseAsyncCrawler
 from parsel import Selector
 from api.logger import logger
 
+"""
+DEPRECIATE: 
+WARNING: Sistema atualizou, agr é necessário passar por captcha para passar por essa barreira
+"""
+
 
 class MDPIClient(BaseAsyncCrawler):
+    """
+    .. warning::
+     METODO INOPERANTE.
+     Desde a colocação de metodos anti-crawler, essa classe se tornou inoperante
+    """
+
     def get_pdf_links(self, html_content: str) -> list:
         sel = Selector(text=html_content)
         articles_data = []

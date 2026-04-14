@@ -3,11 +3,11 @@ import os
 import pandas as pd
 from tqdm import tqdm
 from typing import Callable, List
-from api.modelo.agents.base_aiagent import BaseAgent
-from api.modelo.agents.ollama_api import OllamaAgent
-from api.modelo.agents.chatgpt_api import ChatGPTAgent
-from api.modelo.agents.groq_api import MODELS_GROQ, GroqAgent
-from api.modelo.agents.unsloth_api import UnslothAgent
+from api.v1.modelo.base.base_aiagent import BaseAgent
+from api.v1.modelo.agents.ollama_api import OllamaAgent
+from api.v1.modelo.agents.chatgpt_api import ChatGPTAgent
+from api.v1.modelo.agents.groq_api import MODELS_GROQ, GroqAgent
+from api.v1.modelo.agents.unsloth_api import UnslothAgent
 
 
 async def generate_answers_csv(
