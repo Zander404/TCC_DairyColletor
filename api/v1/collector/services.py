@@ -2,9 +2,8 @@ import io
 import pandas as pd
 
 from fastapi import File, HTTPException, UploadFile
-from fastapi.responses import FileResponse, StreamingResponse
+from fastapi.responses import StreamingResponse
 from api.v1.collector.clients.pubmed_client import PubMedClient
-from api.v1.collector.utils.constants import PATH_COLLECTOR
 
 
 async def start_collect_article_id_pub_med(

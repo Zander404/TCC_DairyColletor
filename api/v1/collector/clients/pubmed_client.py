@@ -159,7 +159,7 @@ class PubMedClient:
             url_path: str = f"{URL_FETCH}{str(row['PubMedID'])}"
             data = requests.get(url_path)
 
-            row["URL"] = mask_api_key(url_path)
+            row["URL"] = mask_api_key(url_path, show=True)
             content = data.text
             root = ET.fromstring(content)
             row["Journal"] = root.find(".//Title").text
