@@ -1,3 +1,4 @@
+from pathlib import Path
 import re
 from typing import Dict
 import fitz
@@ -30,7 +31,9 @@ class ExtractorServices:
             for number, question, answer in text_block
         ]
 
-    def extract_pdf(self, pdf_file: str) -> pd.DataFrame | None:
+    def extract_pdf(
+        self, pdf_file: str = "500perguntasgadoleite.pdf"
+    ) -> pd.DataFrame | None:
         """
         Function to read a pdf and extract the text inside the PDF and save in a csv the important data
         Arg:
@@ -39,11 +42,14 @@ class ExtractorServices:
 
         Return:
             - Return a CSV with the data extract
+
+
         """
-        with open(pdf_file, "rb") as file:
+        pdf_filepath: Path = EXTRACTOR_PATH / "data" / pdf_file
+        with open(str(pdf_filepath), "rb") as file:
             reader = fitz.open(file)
 
-            full_text: str = "\n".join(page.get_text for page in reader)
+            full_text: str = "\n".join(page.get_text() for page in reader)
             full_text: str = re.sub(r"(\d{1,3}\n)", "", full_text)
 
             BLOCK_PATTERN: str = r"(\d+\t)\s+(.*?(?:\?\s*)+)(.*?)(?=\n\d+\s+|\Z)"
