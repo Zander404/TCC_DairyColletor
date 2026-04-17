@@ -5,4 +5,4 @@ __pycache__/
 *.csv
 *.pdf
 downloads/
-
+browser_session/
