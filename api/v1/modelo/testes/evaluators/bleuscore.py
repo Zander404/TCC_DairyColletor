@@ -1,4 +1,3 @@
-from api.modelo.test.evaluators.base_evaluator import BaseEvaluator
 import nltk
 from nltk.translate.bleu_score import sentence_bleu
 import pandas as pd
@@ -6,7 +5,8 @@ from tqdm import tqdm
 
 from typing import Any, List, Dict
 
-from api.modelo.test.data_processing.normalizer import normalize_row
+from api.v1.modelo.testes.evaluators.base.base_evaluator import BaseEvaluator
+from api.v1.modelo.testes.data_processing.normalizer import normalize_row
 
 # nltk.download("punkt_tab")
 

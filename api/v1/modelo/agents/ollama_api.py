@@ -1,16 +1,12 @@
 from typing import Dict, List
-from dotenv import load_dotenv
 from ollama import ChatResponse, chat
 
-from api.modelo.agents.base_aiagent import BaseAgent
-
-load_dotenv()
-
-zero_shot: str = "Assuma o papel de um zootecnista especialista em gado leiteiro. Responda com informações diretas e aplicáveis à criação e manejo de vacas leiteiras"
+from api.v1.modelo.base.base_aiagent import BaseAgent
+from api.v1.modelo.utils.constants import LIST_OF_OLLAMA_MODELS, ZERO_SHOT_PROMPT
 
 
 class OllamaAgent(BaseAgent):
-    def __init__(self, model: str, zero_shot: str = zero_shot):
+    def __init__(self, model: LIST_OF_OLLAMA_MODELS, zero_shot: str = ZERO_SHOT_PROMPT):
         self.model = model
         self.zero_shot = zero_shot
 
@@ -37,7 +33,7 @@ class OllamaAgent(BaseAgent):
 
 if __name__ == "__main__":
     print("MODULO OLLAMA (LOCAL)")
-    agent: OllamaAgent = OllamaAgent("llama3.1-8192", zero_shot)
+    agent: OllamaAgent = OllamaAgent(model="llama3.1-8192", zero_shot=ZERO_SHOT_PROMPT)
 
     result = agent.call("O que significa a palavra teste?")
 

@@ -1,20 +1,14 @@
 from openai import OpenAI
-import os
-from dotenv import load_dotenv
 
-from api.modelo.agents.base_aiagent import BaseAgent
 from typing import List, Dict
 
-load_dotenv()
-
-API_GPT: str | None = os.getenv("CHAT_GPT_KEY")
-
-zero_shot: str = "Assuma o papel de um zootecnista especialista em gado leiteiro. Responda com informações diretas e aplicáveis à criação e manejo de vacas leiteiras"
+from api.v1.modelo.base.base_aiagent import BaseAgent
+from api.v1.modelo.utils.constants import GPT_API_KEY, ZERO_SHOT_PROMPT
 
 
 class ChatGPTAgent(BaseAgent):
     def __init__(
-        self, model: str, api_key: str = API_GPT, zero_shot: str = zero_shot
+        self, model: str, api_key: str = GPT_API_KEY, zero_shot: str = ZERO_SHOT_PROMPT
     ) -> None:
         self.model = model
         self.zero_shot = zero_shot
@@ -41,9 +35,7 @@ class ChatGPTAgent(BaseAgent):
 if __name__ == "__main__":
     print("Modulo GPT")
     model = "gpt-4"
-    # response = chatgpt_call("Definição de Automação", model)
-    # print(response)
-    #
+
     ## Using Strategie Pattern
-    chatgpt: ChatGPTAgent = ChatGPTAgent(model=model, zero_shot=zero_shot)
+    chatgpt: ChatGPTAgent = ChatGPTAgent(model=model, zero_shot=ZERO_SHOT_PROMPT)
     chatgpt.call("Definição de Automação")

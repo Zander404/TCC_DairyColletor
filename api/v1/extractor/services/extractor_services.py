@@ -42,8 +42,6 @@ class ExtractorServices:
 
         Return:
             - Return a CSV with the data extract
-
-
         """
         pdf_filepath: Path = EXTRACTOR_PATH / "data" / pdf_file
         with open(str(pdf_filepath), "rb") as file:

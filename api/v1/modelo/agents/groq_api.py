@@ -1,31 +1,24 @@
-import os
-from typing import Dict, List, Tuple
-
+from typing import Dict, List
 from dotenv import load_dotenv
 
-from api.modelo.agents.base_aiagent import BaseAgent
 from groq import Groq
 
-load_dotenv()
-
-GROQ_API = os.getenv("GROQ_KEY")
-
-zero_shot: str = "Assuma o papel de um zootecnista especialista em gado leiteiro. Responda com informações diretas e aplicáveis à criação e manejo de vacas leiteiras"
-
-
-MODELS_GROQ: Tuple = (
-    "llama-3.3-70b-versatile",
-    "llama-3.1-8b-instant",
-    "llama3-70b-8192",
-    "llama3-8b-8192",
-    # "whisper-large-v3",
-    # "whisper-large-v3-turbo",
+from api.v1.modelo.base.base_aiagent import BaseAgent
+from api.v1.modelo.utils.constants import (
+    GROQ_API_KEY,
+    LIST_OF_GROQ_MODELS,
+    ZERO_SHOT_PROMPT,
 )
+
+load_dotenv()
 
 
 class GroqAgent(BaseAgent):
     def __init__(
-        self, model: str, zero_shot: str = zero_shot, api_key: str | None = GROQ_API
+        self,
+        api_key: str | None = GROQ_API_KEY,
+        model: LIST_OF_GROQ_MODELS = "llama-3.3-70b-versatile",
+        zero_shot=ZERO_SHOT_PROMPT,
     ):
         self.model = model
         self.zero_shot = zero_shot
@@ -57,10 +50,8 @@ class GroqAgent(BaseAgent):
 
 if __name__ == "__main__":
     print("MODULO GROQ")
-    # response = groq_call("Definição de Automação", "llama-3.3-70b")
-    # print(response)
 
-    groq_agent: GroqAgent = GroqAgent("llama3-70b", zero_shot=zero_shot)
+    groq_agent: GroqAgent = GroqAgent(model="", zero_shot=ZERO_SHOT_PROMPT)
 
-    response: str = groq_agent.call("Definição de Automação")
+    response: str | None = groq_agent.call("Definição de Automação")
     print(response)

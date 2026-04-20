@@ -7,11 +7,6 @@ from api.v1.collector.services import (
 router = APIRouter(prefix="/pubmed", tags=["PubMed"])
 
 
-@router.get("/")
-def index():
-    return {"Data": "Hello Word"}
-
-
 @router.post(
     "/colect_data",
     description="Rota para realizar a busca de ID's de artigos através das Keywords pré-setadas e salvar em CSV no BackEnd",

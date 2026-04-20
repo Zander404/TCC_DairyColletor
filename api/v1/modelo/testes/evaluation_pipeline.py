@@ -1,16 +1,14 @@
-import csv
 from pathlib import Path
 from typing import Dict, List, Tuple
 
-from pandas.core.algorithms import mode
-from api.modelo.test.evaluators.bleuscore import BleuScore
-from api.utils.save_csv import save_results_in_csv
 import pandas as pd
 
-from api.modelo.test.evaluators.bartscore import BARTScorer
-from api.modelo.test.evaluators.base_evaluator import BaseEvaluator
-from api.modelo.test.evaluators.bertscore import BertEvaluator
-from api.modelo.test.evaluators.rougescore import RougeScorerEvaluator
+from api.v1.utils.save_csv import save_results_in_csv
+from api.v1.modelo.testes.evaluators.bleuscore import BleuScore
+from api.v1.modelo.testes.evaluators.bartscore import BARTScorer
+from api.v1.modelo.testes.evaluators.base.base_evaluator import BaseEvaluator
+from api.v1.modelo.testes.evaluators.bertscore import BertEvaluator
+from api.v1.modelo.testes.evaluators.rougescore import RougeScorerEvaluator
 
 
 def get_evaluator(name: str) -> BaseEvaluator:

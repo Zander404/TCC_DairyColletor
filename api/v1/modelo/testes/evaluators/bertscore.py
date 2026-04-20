@@ -2,11 +2,11 @@ import pandas as pd
 from tqdm import tqdm
 from bert_score import BERTScorer
 
-from api.modelo.test.data_processing.normalizer import normalize_row
 
 from typing import List, Any, Dict, Tuple
 
-from api.modelo.test.evaluators.base_evaluator import BaseEvaluator
+from api.v1.modelo.testes.data_processing.normalizer import normalize_row
+from api.v1.modelo.testes.evaluators.base.base_evaluator import BaseEvaluator
 
 
 class BertEvaluator(BaseEvaluator[Tuple[float, float, float]]):

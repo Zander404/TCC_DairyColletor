@@ -1,10 +1,10 @@
 from rouge_score import rouge_scorer
 
-from api.modelo.test.data_processing.normalizer import normalize_row
 from typing import Any, List, Dict
 import pandas as pd
 from tqdm import tqdm
-from api.modelo.test.evaluators.base_evaluator import BaseEvaluator
+from api.v1.modelo.testes.data_processing.normalizer import normalize_row
+from api.v1.modelo.testes.evaluators.base.base_evaluator import BaseEvaluator
 
 
 class RougeScorerEvaluator(BaseEvaluator[Dict[str, str]]):

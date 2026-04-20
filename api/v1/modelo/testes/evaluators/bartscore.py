@@ -7,8 +7,8 @@ import numpy as np
 import pandas as pd
 from tqdm import tqdm
 
-from api.modelo.test.data_processing.normalizer import normalize_row
-from api.modelo.test.evaluators.base_evaluator import BaseEvaluator
+from api.v1.modelo.testes.data_processing.normalizer import normalize_row
+from api.v1.modelo.testes.evaluators.base.base_evaluator import BaseEvaluator
 
 
 class BARTScorer(BaseEvaluator):
